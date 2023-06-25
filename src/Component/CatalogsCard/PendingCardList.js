@@ -1,36 +1,9 @@
 import React from "react";
-import Card from "./Card";
-import CoverImg from "../assets/img/cover.jpg";
-import Pending from "../assets/icons/P.svg";
 import { Link } from "react-router-dom";
+import Pending from "../assets/icons/P.svg";
+import Card from "./Card";
 
-const PendingCardList = () => {
-  const cardData = [
-    {
-      sImg: CoverImg,
-      title: "Song Title",
-      sTitle: "Song Title",
-      status: Pending,
-    },
-    {
-      sImg: CoverImg,
-      title: "Song Title",
-      sTitle: "Song Title",
-      status: Pending,
-    },
-    {
-      sImg: CoverImg,
-      title: "Song Title",
-      sTitle: "Song Title",
-      status: Pending,
-    },
-    {
-      sImg: CoverImg,
-      title: "Song Title",
-      sTitle: "Song Title",
-      status: Pending,
-    }
-  ];
+const PendingCardList = ({cardData}) => {
 
   return (
     <div className="row">
@@ -39,10 +12,10 @@ const PendingCardList = () => {
         <Link to='/catalog_details'>
           <Card
             key={index}
-            sImg={card.sImg}
-            title={card.title}
-            sTitle={card.sTitle}
-            status={card.status}
+            sImg={card?.images && card?.images[0]?.image_download_url}
+            title={card?.title}
+            sTitle={card?.subtitle}
+            status={Pending}
           />
           </Link>
         </div>

@@ -1,16 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InputField from "../Component/InputField/InputField";
-import IconInputField from "../Component/InputField/IconInputField";
-import Selector from "../Component/Selector/Selector";
-import ImageUploadForm from "../Component/ImageUpload/ImageUploadForm";
 import AudioUploadForm from "../Component/AudioUpload/AudioUploadForm";
+import ImageUploadForm from "../Component/ImageUpload/ImageUploadForm";
+import IconInputField from "../Component/InputField/IconInputField";
+import IconSelectField from "../Component/InputField/IconSelectField";
+import InputField from "../Component/InputField/InputField";
+import Selector from "../Component/Selector/Selector";
+import OptionService from "../Service/OptionService";
 
 const ReleaseAudio = () => {
   const navigate = useNavigate();
+
+  const [options, setOptions] = useState({});
+  const getOptions = async () => {
+    const artist = await OptionService.getArtist();
+    const genre = await OptionService.getGenre();
+    const language = await OptionService.getLanguage();
+    const label = await OptionService.getLabel();
+    const format = await OptionService.getFormat();
+    const advisory = await OptionService.getAdvisory();
+    setOptions({
+      ...options,
+      artist: artist,
+      genre: genre,
+      language: language,
+      label: label,
+      format: format,
+      advisory: advisory,
+    });
+  };
+  useEffect(() => {
+    getOptions();
+  }, []);
+
+  const [data, setData] = useState({genre_id:1})
+  
   const [name, setName] = useState("");
   const [version_S, setVersion_S] = useState("");
   const [primaryArtist, setPrimaryArtist] = useState("");
+
+
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -62,13 +91,14 @@ const ReleaseAudio = () => {
                 value={version_S}
                 onChange={handleversion_SChange}
               />
-              <IconInputField
+              <IconSelectField
                 labels={["Primary Artist", "Secondary Artist"]}
                 ids={["input1", "input2"]}
                 placeholders={[null, null]}
                 onChange={handlePrimaryArtistChange}
                 value={primaryArtist}
                 star="*"
+                options={options}
               />
               <IconInputField
                 labels={["Featuring", "Secondary Artist"]}
@@ -136,25 +166,25 @@ const ReleaseAudio = () => {
                 <label htmlFor="" className="mb-2">
                   Lyrics Language <span className="input_star">*</span>
                 </label>
-                <Selector />
+                <Selector options={options?.language} />
               </div>
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Genre <span className="input_star">*</span>
                 </label>
-                <Selector />
+                <Selector options={options?.genre} />
               </div>
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Subgenre <span className="input_star">*</span>
                 </label>
-                <Selector />
+                <Selector options={options?.genre?.find(item=>item?.value == data?.genre_id)?.subgenres} />
               </div>
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Label Name <span className="input_star">*</span>
                 </label>
-                <Selector />
+                <Selector options={options?.label} />
               </div>
             </div>
           </form>
@@ -166,14 +196,13 @@ const ReleaseAudio = () => {
                 <label htmlFor="" className="mb-2">
                   Format <span className="input_star">*</span>
                 </label>
-                <Selector />
+                <Selector options={options?.format} />
               </div>
               <InputField
                 label="℗ line"
                 value={name}
                 onChange={handleNameChange}
                 star="*"
-                
               />
               <InputField
                 label="© line"
@@ -193,9 +222,9 @@ const ReleaseAudio = () => {
               />
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
-                Parental Advisory
+                  Parental Advisory
                 </label>
-                <Selector />
+                <Selector options={options?.advisory} />
               </div>
               <InputField
                 label="Producer Catalogue Number"
@@ -206,8 +235,12 @@ const ReleaseAudio = () => {
           </form>
         </div>
         <div className="col-xl-3 col-lg-6 mt-5">
-          <div><ImageUploadForm/></div>
-          <div className="mt-4"><AudioUploadForm/></div>
+          <div>
+            <ImageUploadForm />
+          </div>
+          <div className="mt-4">
+            <AudioUploadForm />
+          </div>
         </div>
       </div>
     </>

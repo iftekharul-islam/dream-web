@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import userImg from "../assets/img/user.png";
+import React, { useEffect, useRef, useState } from "react";
 import { AiFillSetting } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import AuthService from "../../Service/AuthService";
+import getUser from "../../utils/getUser";
 import ChangePasswordPopup from "../Modal/ChangePasswordPopup";
 import Notification from "../Notification/Notification";
+import userImg from "../assets/img/user.png";
 
 function Topbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,8 +29,9 @@ function Topbar() {
     };
   }, []);
 
-  const handleSignOut = () => {
+  const handleSignOut = async() => {
     setIsOpen(false);
+    await AuthService.logout();
     // Perform sign out logic here
   };
 
@@ -36,7 +39,7 @@ function Topbar() {
     <div className="topbar_item">
       <Notification />
       <Link to="/profile" className="account_info">
-        <p className="name">Mahfuzur Rahman</p>
+        <p className="name">{getUser()?.name}</p>
         <img src={userImg} alt="" />
       </Link>
       <div className="toggle_account_info">
@@ -44,7 +47,7 @@ function Topbar() {
         {isOpen && (
           <div className="menu_item" ref={menuRef}>
             <ChangePasswordPopup />
-            <Link onClick={handleSignOut}>
+            <Link to="/" onClick={handleSignOut}>
               <p>Sign Out</p>
             </Link>
           </div>
