@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import shortid from "shortid";
 import UploadIcon from "../assets/icons/Upload.svg";
 
-const ImageUploadForm = () => {
+const ImageUploadForm = ({onChange}) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  console.log("🚀 ~ file: ImageUploadForm.js:7 ~ ImageUploadForm ~ selectedFile:", selectedFile)
   const [fileInfo, setFileInfo] = useState(null);
   const [files, setFiles] = useState([]);
+  console.log("🚀 ~ file: ImageUploadForm.js:9 ~ ImageUploadForm ~ files:", files)
 
   const filesizes = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
@@ -56,6 +58,10 @@ const ImageUploadForm = () => {
       alert("Please select an image file");
     }
   };
+
+  useEffect(() => {
+    onChange('image', files);
+  }, [files]);
 
   return (
     <div>
@@ -114,7 +120,7 @@ const ImageUploadForm = () => {
                       </div>
                     )}
                     <div className="kb-buttons-box">
-                      <button type="submit" className="btn">
+                      <button type="submit" className="btn" disabled={files?.length}>
                         Upload
                       </button>
                     </div>

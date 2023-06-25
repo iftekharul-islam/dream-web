@@ -33,13 +33,33 @@ const ReleaseAudio = () => {
     getOptions();
   }, []);
 
-  const [data, setData] = useState({genre_id:1})
-  
+  const [data, setData] = useState();
+  console.log("🚀 ~ file: ReleaseAudio.js:37 ~ ReleaseAudio ~ data:", data);
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSelectChange = (name, event) => {
+    setData({
+      ...data,
+      [name]: event?.value,
+    });
+  };
+
+  const handleFileChange = (name, file) => {
+    setData({
+      ...data,
+      [name]: file,
+    });
+  }
+
   const [name, setName] = useState("");
   const [version_S, setVersion_S] = useState("");
   const [primaryArtist, setPrimaryArtist] = useState("");
-
-
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -49,7 +69,7 @@ const ReleaseAudio = () => {
     setVersion_S(event.target.value);
   };
   const handlePrimaryArtistChange = (event) => {
-    setPrimaryArtist(event.target.value);
+    // setPrimaryArtist(event.target.value);
   };
 
   // Preivew Button
@@ -82,14 +102,18 @@ const ReleaseAudio = () => {
             <div>
               <InputField
                 label="Release Title"
-                value={name}
                 star="*"
-                onChange={handleNameChange}
+                placeholder="Enter Release Title"
+                name="title"
+                value={data?.name}
+                onChange={handleChange}
               />
               <InputField
                 label="Version/Subtitle"
-                value={version_S}
-                onChange={handleversion_SChange}
+                placeholder="Enter Version/Subtitle"
+                name="subtitle"
+                value={data?.subtitle}
+                onChange={handleChange}
               />
               <IconSelectField
                 labels={["Primary Artist", "Secondary Artist"]}
@@ -113,9 +137,11 @@ const ReleaseAudio = () => {
               <div className="add_input mt-3">
                 <InputField
                   label="Song Writer"
-                  value={version_S}
-                  onChange={handleversion_SChange}
                   star="*"
+                  placeholder="Enter Song Writer"
+                  name="writter"
+                  value={data?.writter}
+                  onChange={handleChange}
                 />
                 <p className="input_desc">
                   Digital Audio Stores required Full First & Last Name
@@ -142,9 +168,11 @@ const ReleaseAudio = () => {
             <div>
               <InputField
                 label="Main Release Date"
-                value={name}
-                onChange={handleNameChange}
                 star="*"
+                placeholder="Enter Main Release Date"
+                name="main_release_date"
+                value={data?.main_release_date}
+                onChange={handleChange}
               />
               <IconInputField
                 labels={["Arranger", "Secondary Arranger"]}
@@ -158,33 +186,59 @@ const ReleaseAudio = () => {
               />
               <InputField
                 label="Original Release Date"
-                value={name}
-                onChange={handleNameChange}
                 star="*"
+                placeholder="Enter Original Release Date"
+                name="original_release_date"
+                value={data?.original_release_date}
+                onChange={handleChange}
               />
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Lyrics Language <span className="input_star">*</span>
                 </label>
-                <Selector options={options?.language} />
+                <Selector
+                  options={options?.language}
+                  name="language_id"
+                  placeholder="Select Lyrics Language"
+                  onChange={handleSelectChange}
+                />
               </div>
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Genre <span className="input_star">*</span>
                 </label>
-                <Selector options={options?.genre} />
+                <Selector
+                  options={options?.genre}
+                  name="genre_id"
+                  placeholder="Select Genre"
+                  onChange={handleSelectChange}
+                />
               </div>
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Subgenre <span className="input_star">*</span>
                 </label>
-                <Selector options={options?.genre?.find(item=>item?.value == data?.genre_id)?.subgenres} />
+                <Selector
+                  options={
+                    options?.genre?.find(
+                      (item) => item?.value == data?.genre_id
+                    )?.subgenres
+                  }
+                  name="subgenre_id"
+                  placeholder="Select Subgenre"
+                  onChange={handleSelectChange}
+                />
               </div>
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Label Name <span className="input_star">*</span>
                 </label>
-                <Selector options={options?.label} />
+                <Selector
+                  options={options?.label}
+                  name="label_id"
+                  placeholder="Select Label Name"
+                  onChange={handleSelectChange}
+                />
               </div>
             </div>
           </form>
@@ -196,47 +250,67 @@ const ReleaseAudio = () => {
                 <label htmlFor="" className="mb-2">
                   Format <span className="input_star">*</span>
                 </label>
-                <Selector options={options?.format} />
+                <Selector
+                  options={options?.format}
+                  name="format_id"
+                  placeholder="Select Format"
+                  onChange={handleSelectChange}
+                />
               </div>
               <InputField
                 label="℗ line"
-                value={name}
-                onChange={handleNameChange}
                 star="*"
+                placeholder="Enter ℗ line"
+                name="p_name"
+                value={data?.p_name}
+                onChange={handleChange}
               />
               <InputField
                 label="© line"
-                value={name}
-                onChange={handleNameChange}
                 star="*"
+                placeholder="Enter © line"
+                name="c_name"
+                value={data?.c_name}
+                onChange={handleChange}
               />
               <InputField
                 label="UPC/EAN"
-                value={name}
-                onChange={handleNameChange}
+                placeholder="Enter UPC/EAN"
+                name="upc"
+                value={data?.upc}
+                onChange={handleChange}
               />
               <InputField
                 label="ISRC"
-                value={name}
-                onChange={handleNameChange}
+                placeholder="Enter ISRC"
+                name="isrc"
+                value={data?.isrc}
+                onChange={handleChange}
               />
               <div className="mt-3">
                 <label htmlFor="" className="mb-2">
                   Parental Advisory
                 </label>
-                <Selector options={options?.advisory} />
+                <Selector
+                  options={options?.advisory}
+                  name="advisory_id"
+                  placeholder="Select Parental Advisory"
+                  onChange={handleSelectChange}
+                />
               </div>
               <InputField
                 label="Producer Catalogue Number"
-                value={name}
-                onChange={handleNameChange}
+                placeholder="Enter Producer Catalogue Number"
+                name="producer_catalogue_number"
+                value={data?.producer_catalogue_number}
+                onChange={handleChange}
               />
             </div>
           </form>
         </div>
         <div className="col-xl-3 col-lg-6 mt-5">
           <div>
-            <ImageUploadForm />
+            <ImageUploadForm onChange={handleFileChange}/>
           </div>
           <div className="mt-4">
             <AudioUploadForm />

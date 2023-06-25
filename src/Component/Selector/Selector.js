@@ -1,11 +1,11 @@
 import React from "react";
 import Select from "react-select";
 
-const Selector = ({ options, onChange, placeholder, value, isDisabled }) => {
+const Selector = ({ options, onChange, name, placeholder, value, isDisabled }) => {
   return (
     <Select
       options={options}
-      onChange={onChange}
+      onChange={e=>onChange(name, e)}
       placeholder={placeholder}
       value={value}
       isDisabled={isDisabled}

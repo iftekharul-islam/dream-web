@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import LabelService from "../../Service/LabelService";
 import InputField from "../InputField/InputField";
 import TextField from "../TextBox/TextField";
 
-function LabelManagePopup() {
+function LabelManagePopup({getData}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -27,6 +28,24 @@ function LabelManagePopup() {
     setComment(event.target.value);
   };
 
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async() => {
+    if(!title) {
+      setError(true);
+    } else {
+      const res = await LabelService.createLabel({title, youtube_url: ytLink, message: comment});
+      if(res?.status == 201) {
+        setError(null);
+        setTitle("");
+        setYtLink("");
+        setComment("");
+        handleClose();
+        getData();
+      }
+    }
+  }
+
   return (
     <>
       <button className="btn add_label_btn mt-4" onClick={handleShow}>
@@ -44,6 +63,10 @@ function LabelManagePopup() {
               value={title}
               onChange={handleTitleChange}
             />
+            {error && <small className="text-danger">
+              *Please enter a title for the label
+            </small>
+            }
             <InputField
               label="Youtube URL"
               star="*"
@@ -60,7 +83,7 @@ function LabelManagePopup() {
         </Modal.Body>
         <Modal.Footer>
           <div className="btn_area">
-            <button className="btn" onClick={handleClose}>
+            <button className="btn" onClick={handleSubmit}>
               Submit
             </button>
             <button className="btn_s" onClick={handleClose}>
