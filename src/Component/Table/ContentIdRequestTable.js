@@ -1,54 +1,36 @@
 import { Table } from "antd";
+import moment from "moment";
 const columns = [
   {
     title: "Date",
-    dataIndex: "date",
+    dataIndex: "created_at",
+    render: (created_at) => {return moment(created_at).format("DD MMM YYYY")}
   },
   {
     title: "UPC/EAN",
-    dataIndex: "UPC_EAN",
+    dataIndex: "content_upc",
   },
   {
     title: "Status",
-    dataIndex: "status",
-    render: (status) => {
+    dataIndex: "current_status",
+    render: (current_status) => {
       let color;
-      if (status === "Pending") {
+      if (current_status === "Pending") {
         color = "orange";
-      } else if (status === "Approved") {
+      } else if (current_status === "Approved") {
         color = "green";
-      } else if (status === "Failed") {
+      } else if (current_status === "Rejected") {
         color = "red";
       } else {
         color = "black";
       }
-      return <span style={{ color }}>{status}</span>;
+      return <span style={{ color }}>{current_status}</span>;
     },
   },
 ];
-const data = [
-  {
-    key: "1",
-    date: "27-10-2001",
-    UPC_EAN: "UPC/EAN",
-    status: "Approved",
-  },
-  {
-    key: "2",
-    date: "27-10-2001",
-    UPC_EAN: "UPC/EAN",
-    status: "Pending",
-  },
-  {
-    key: "3",
-    date: "27-10-2001",
-    UPC_EAN: "UPC/EAN",
-    status: "Failed",
-  },
-];
 
-const ContentIdRequestTable = () => (
-  <Table columns={columns} dataSource={data} bordered scroll={{ x: 768}}/>
+const ContentIdRequestTable = ({data}) => (
+  <Table columns={columns} dataSource={data} bordered scroll={{ x: 768}} pagination={{ pageSize: 5 }}/>
 );
 
 export default ContentIdRequestTable;

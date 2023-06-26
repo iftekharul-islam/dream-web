@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AudioUploadForm from "../Component/AudioUpload/AudioUploadForm";
 import ImageUploadForm from "../Component/ImageUpload/ImageUploadForm";
 import IconInputField from "../Component/InputField/IconInputField";
@@ -34,7 +34,13 @@ const ReleaseAudio = () => {
   }, []);
 
   const [data, setData] = useState();
-  console.log("🚀 ~ file: ReleaseAudio.js:37 ~ ReleaseAudio ~ data:", data);
+  console.log("🚀 ~ file: ReleaseAudio.js:37 ~ ReleaseAudio ~ data:", data)
+  const { state } = useLocation();
+  useEffect(() => {
+    if (state?.data) {
+      setData(state.data);
+    }
+  }, [state]);
 
   const handleChange = (event) => {
     setData({
@@ -55,7 +61,7 @@ const ReleaseAudio = () => {
       ...data,
       [name]: file,
     });
-  }
+  };
 
   const [name, setName] = useState("");
   const [version_S, setVersion_S] = useState("");
@@ -74,13 +80,11 @@ const ReleaseAudio = () => {
 
   // Preivew Button
   const handleButtonClick = () => {
-    navigate(
-      `/audio_submission?name=${encodeURIComponent(
-        name
-      )}&version_S=${encodeURIComponent(
-        version_S
-      )}&primaryArtist=${encodeURIComponent(primaryArtist)}`
-    );
+    navigate(`/audio_submission`, {
+      state: {
+        data: data,
+      },
+    });
   };
 
   return (
@@ -310,10 +314,10 @@ const ReleaseAudio = () => {
         </div>
         <div className="col-xl-3 col-lg-6 mt-5">
           <div>
-            <ImageUploadForm onChange={handleFileChange}/>
+            <ImageUploadForm onChange={handleFileChange} />
           </div>
           <div className="mt-4">
-            <AudioUploadForm />
+            <AudioUploadForm onChange={handleFileChange} />
           </div>
         </div>
       </div>

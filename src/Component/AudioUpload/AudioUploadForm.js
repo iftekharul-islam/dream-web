@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import shortid from "shortid";
 import UploadIcon from "../assets/icons/Upload.svg";
 
-const AudioUploadForm = () => {
+const AudioUploadForm = ({onChange}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [file, setFile] = useState(null);
 
@@ -55,6 +55,10 @@ const AudioUploadForm = () => {
     setFile(null);
   };
 
+  useEffect(() => {
+    onChange('file', [file]);
+  }, [file]);
+
   return (
     <div className="fileupload-view">
       <div className="row justify-content-center p-0">
@@ -70,6 +74,7 @@ const AudioUploadForm = () => {
                         id="fileupload"
                         className="file-upload-input"
                         onChange={handleInputChange}
+                        accept="audio/*"
                       />
                       <div className="img_Up_info">
                         <img src={UploadIcon} alt="" className="mb-2" />
@@ -112,7 +117,7 @@ const AudioUploadForm = () => {
                     )}
                   </div>
                   <div className="kb-buttons-box">
-                    <button type="submit" className="btn">
+                    <button type="submit" className="btn" disabled={file}>
                       Upload
                     </button>
                   </div>

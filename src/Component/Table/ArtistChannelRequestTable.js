@@ -1,82 +1,52 @@
 import { Table } from "antd";
+import moment from "moment";
 const columns = [
   {
     title: "Date",
-    dataIndex: "date",
+    dataIndex: "created_at",
+    render: (created_at) => {return moment(created_at).format("DD MMM YYYY")}
   },
   {
     title: "Channel Link",
-    dataIndex: "channel_link",
+    dataIndex: "artist_channel_link",
   },
   {
     title: "Topic Link",
-    dataIndex: "t_link",
+    dataIndex: "artist_topic_link",
   },
   {
     title: "UPC/EAN1",
-    dataIndex: "UPCC1",
+    dataIndex: "artist_upc1",
   },
   {
     title: "UPC/EAN2",
-    dataIndex: "UPCC2",
+    dataIndex: "artist_upc2",
   },
   {
     title: "UPC/EAN3",
-    dataIndex: "UPCC3",
+    dataIndex: "artist_upc3",
   },
   {
     title: "Status",
-    dataIndex: "status",
-    render: (status) => {
+    dataIndex: "current_status",
+    render: (current_status) => {
       let color;
-      if (status === "Pending") {
+      if (current_status === "Pending") {
         color = "orange";
-      } else if (status === "Approved") {
+      } else if (current_status === "Approved") {
         color = "green";
-      } else if (status === "Failed") {
+      } else if (current_status === "Rejected") {
         color = "red";
       } else {
         color = "black";
       }
-      return <span style={{ color }}>{status}</span>;
+      return <span style={{ color }}>{current_status}</span>;
     },
   },
 ];
-const data = [
-  {
-    key: "1",
-    date: "27-10-2001",
-    channel_link: "link",
-    t_link: "link",
-    UPCC1: "upc1 here",
-    UPCC2: "upc2 here",
-    UPCC3: "upc3 here",
-    status: "Approved",
-  },
-  {
-    key: "2",
-    date: "27-10-2001",
-    channel_link: "link",
-    t_link: "link",
-    UPCC1: "upc1 here",
-    UPCC2: "upc2 here",
-    UPCC3: "upc3 here",
-    status: "Pending",
-  },
-  {
-    key: "3",
-    date: "27-10-2001",
-    channel_link: "link",
-    t_link: "link",
-    UPCC1: "upc1 here",
-    UPCC2: "upc2 here",
-    UPCC3: "upc3 here",
-    status: "Failed",
-  },
-];
 
-const ArtistChannelRequestTable = () => (
-  <Table columns={columns} dataSource={data} bordered scroll={{ x: 768}}/>
+const ArtistChannelRequestTable = ({data}) => (
+  <Table columns={columns} dataSource={data} bordered scroll={{ x: 768}} pagination={{ pageSize: 5 }}/>
 );
 
 export default ArtistChannelRequestTable

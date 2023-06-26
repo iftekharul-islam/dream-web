@@ -69,7 +69,6 @@ function LabelManagePopup({getData}) {
             }
             <InputField
               label="Youtube URL"
-              star="*"
               value={ytLink}
               onChange={handleYtChange}
             />

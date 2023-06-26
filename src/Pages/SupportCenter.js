@@ -1,16 +1,40 @@
-import React, { useState } from "react";
-import InputField from "../Component/InputField/InputField";
-import TextField from "../Component/TextBox/TextField";
+import React, { useEffect, useState } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
-import SupportHistoryTable from "../Component/Table/SupportHistoryTable";
+import InputField from "../Component/InputField/InputField";
 import SearchBar from "../Component/SearchBar/SearchBar";
-import UploadButton from "../Component/UploadBtn/UploadButton";
+import SupportHistoryTable from "../Component/Table/SupportHistoryTable";
+import SupportService from "../Service/SupportService";
 
 function SupportCenter() {
-  const [name, setName] = useState("");
+  const [uploadData, setUploadData] = useState(null);
+  console.log("🚀 ~ file: SupportCenter.js:11 ~ SupportCenter ~ uploadData:", uploadData)
+  
+  const handleChange = (event) => {
+    setUploadData({...uploadData, [event?.target?.name] : event?.target?.value});
+  };
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleSubmit = async() => {
+    const res = await SupportService.createTicket(uploadData);
+    if (res?.status == 201) {
+      setUploadData(null);
+      getData();
+    }
+  }
+  
+  const [data, setData] = useState([]); 
+  const [params, setParams] = useState(null);
+
+  const getData = async() => {
+    const res = await SupportService.getAllData(params);
+    setData(res?.data);
+  }
+
+  useEffect(() => {
+    getData();
+  }, [params]);
+
+  const onSearch = (term) => {
+    setParams({ ...params, q: term });
   };
 
   return (
@@ -24,20 +48,22 @@ function SupportCenter() {
                 label="Title"
                 star="*"
                 type="text"
-                value={name}
-                onChange={handleNameChange}
+                value={uploadData?.title}
+                name="title"
+                onChange={handleChange}
               />
-              <TextField
+              <InputField
                 label="Messages"
                 star="*"
-                type="text"
-                value={name}
-                onChange={handleNameChange}
+                type="textarea"
+                value={uploadData?.message}
+                name="message"
+                onChange={handleChange}
               />
               <div className="support_file mt-3">
-              <UploadButton />
+              {/* <UploadButton /> */}
               </div>
-              <button className="btn mt-3">Submit</button>
+              <button className="btn mt-3" onClick={handleSubmit}>Submit</button>
             </div>
           </div>
         </div>
@@ -45,7 +71,7 @@ function SupportCenter() {
           <div className="connect_wp">
           <IoLogoWhatsapp className="icons" />
           <p>Live WhatsApp Support</p>
-          <button className="btn">Chet Now</button>
+          <a className="btn" href="https://wa.me/01677756337" target="_blank">Chet Now</a>
           </div>
         </div>
       </div>
@@ -55,10 +81,10 @@ function SupportCenter() {
             <h2>History</h2>
             <div className="table_content mt-3">
               <div className="table_title">
-                <p>Show 4 entries</p>
-                <SearchBar />
+                <p>Show 5 entries</p>
+                <SearchBar onSearch={onSearch} placeHolder="Search by Title" />
               </div>
-              <SupportHistoryTable />
+              <SupportHistoryTable data={data}/>
             </div>
           </div>
         </div>

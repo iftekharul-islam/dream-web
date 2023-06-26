@@ -1,6 +1,6 @@
 import React from "react";
+import { MdAlarm, MdCreateNewFolder, MdDone } from "react-icons/md";
 import Card from "./Card";
-import { MdCreateNewFolder, MdAlarm, MdDone } from "react-icons/md";
 
 const DashboardCardList = () => {
   const cardData = [
@@ -23,7 +23,7 @@ const DashboardCardList = () => {
 
   return (
     <div className="row">
-      {cardData.map((card, index) => (
+      {cardData?.map((card, index) => (
         <div className="col-lg-4 col-md-6 col-sm-12" key={index}>
           <Card
             icon={card.icon}

@@ -1,4 +1,5 @@
 import { Table } from "antd";
+import moment from "moment";
 import SupportReplyPopup from "../Modal/SupportReplyPopup";
 
 const columns = [
@@ -12,47 +13,35 @@ const columns = [
   },
   {
     title: "Status",
-    dataIndex: "status",
+    dataIndex: "current_status",
+  },
+  {
+    title: "Created At",
+    dataIndex: "created_at",
+    render: (created_at) => (
+      <span>{moment(created_at).format("DD MMM YYYY hh:mm A")}</span>
+    ),
   },
   {
     title: "Last Update",
-    dataIndex: "last_up",
+    dataIndex: "updated_at",
+    render: (updated_at) => (
+      <span>{moment(updated_at).format("DD MMM YYYY hh:mm A")}</span>
+    ),
   },
   {
     title: "Action",
-    dataIndex: "reply",
-    render: () => (
-      <SupportReplyPopup/>
-    ),
+    dataIndex: "status",
+    render: (status, row) => {
+      if(status == 1) return <span>Wait for Admin Reply</span>
+      if(status == 2) return <SupportReplyPopup id={row?.id}/>
+      if(status == 3) return <span>Conversation is Over</span>
+    },
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    id: "01",
-    title: "title.com",
-    last_up: "10-12-2023",
-    status: "Approved",
-  },
-  {
-    key: "2",
-    id: "02",
-    title: "title.com",
-    last_up: "10-12-2023",
-    status: "Pending",
-  },
-  {
-    key: "3",
-    id: "03",
-    title: "title.com",
-    last_up: "10-12-2023",
-    status: "Failed",
-  },
-];
-
-const SupportHistoryTable = () => (
-  <Table columns={columns} dataSource={data} bordered scroll={{ x: 991}}/>
+const SupportHistoryTable = ({ data }) => (
+  <Table columns={columns} dataSource={data} bordered scroll={{ x: 991 }} />
 );
 
 export default SupportHistoryTable;

@@ -1,11 +1,21 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import CatalogsInfo from "../Component/CatalogsInfo/CatalogsInfo";
 import { BiMusic } from "react-icons/bi";
-import Cover_img from '../Component/assets/img/cover.jpg'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import CatalogsInfo from "../Component/CatalogsInfo/CatalogsInfo";
 import SubmitConfirmationPopup from "../Component/Modal/SubmitConfirmationPopup";
+import Cover_img from '../Component/assets/img/cover.jpg';
 
 const AudioSubmission = () => {
+  const navigate = useNavigate();
+  const { data } = useLocation()?.state;
+
+  const handleEditButton = () => {
+    navigate(`/release-audio`, {
+      state: {
+        data: data,
+      },
+    });
+  };
   return (
     <>
       <div className="section_title">
@@ -15,7 +25,7 @@ const AudioSubmission = () => {
         </div>
         <div className="btn_area">
           <SubmitConfirmationPopup />
-          <Link to="/release-audio" className="btn_s">Edit</Link>
+          <Link className="btn_s" onClick={handleEditButton}>Edit</Link>
         </div>
       </div>
       <div className="row mt-5">

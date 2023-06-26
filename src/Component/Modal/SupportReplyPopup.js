@@ -1,10 +1,9 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { AiFillMessage } from "react-icons/ai";
-import TextField from '../TextBox/TextField'
-import UploadButton from "../UploadBtn/UploadButton";
+import TextField from '../TextBox/TextField';
 
-function SupportReplyPopup() {
+function SupportReplyPopup({id}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -43,7 +42,7 @@ function SupportReplyPopup() {
             <button className="btn" onClick={handleClose}>
               Send
             </button>
-              <UploadButton />
+              {/* <UploadButton /> */}
           </div>
         </Modal.Footer>
       </Modal>

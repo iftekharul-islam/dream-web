@@ -7,7 +7,7 @@ import Card from "./Card";
 const ApprovedCardList = ({ cardData }) => {
   return (
     <div className="row">
-      {cardData.map((card, index) => {
+      {cardData?.map((card, index) => {
         return (
           <div className="col-lg-3 col-md-6 col-sm-12" key={index}>
             <Link to="/catalog_details">

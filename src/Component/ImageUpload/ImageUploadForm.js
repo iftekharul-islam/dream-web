@@ -4,10 +4,8 @@ import UploadIcon from "../assets/icons/Upload.svg";
 
 const ImageUploadForm = ({onChange}) => {
   const [selectedFile, setSelectedFile] = useState(null);
-  console.log("🚀 ~ file: ImageUploadForm.js:7 ~ ImageUploadForm ~ selectedFile:", selectedFile)
   const [fileInfo, setFileInfo] = useState(null);
   const [files, setFiles] = useState([]);
-  console.log("🚀 ~ file: ImageUploadForm.js:9 ~ ImageUploadForm ~ files:", files)
 
   const filesizes = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
