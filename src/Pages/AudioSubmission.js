@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { BiMusic } from "react-icons/bi";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CatalogsInfo from "../Component/CatalogsInfo/CatalogsInfo";
 import SubmitConfirmationPopup from "../Component/Modal/SubmitConfirmationPopup";
-import Cover_img from '../Component/assets/img/cover.jpg';
 
 const AudioSubmission = () => {
   const navigate = useNavigate();
   const { data } = useLocation()?.state;
-  console.log("🚀 ~ file: AudioSubmission.js:11 ~ AudioSubmission ~ data:", data)
+  console.log(
+    "🚀 ~ file: AudioSubmission.js:11 ~ AudioSubmission ~ data:",
+    data
+  );
 
   const handleEditButton = () => {
     navigate(`/release-audio`, {
@@ -18,9 +20,9 @@ const AudioSubmission = () => {
     });
   };
 
-  useEffect(()=>{
-    if(!data) navigate('/release-audio');
-  })
+  useEffect(() => {
+    if (!data) navigate("/release-audio");
+  });
 
   return (
     <>
@@ -30,8 +32,10 @@ const AudioSubmission = () => {
           <p>Release your submission</p>
         </div>
         <div className="btn_area">
-          <SubmitConfirmationPopup data={data}/>
-          <Link className="btn_s" onClick={handleEditButton}>Edit</Link>
+          <SubmitConfirmationPopup data={data} />
+          <Link className="btn_s" onClick={handleEditButton}>
+            Edit
+          </Link>
         </div>
       </div>
       <div className="row mt-5">
@@ -53,11 +57,19 @@ const AudioSubmission = () => {
         </div>
         <div className="col-lg-3 col-md-12 mt-5 upload_info">
           <div className="card audio">
-            <BiMusic className="icons"/>
-            <p>Song Name Here</p>
+            <BiMusic className="icons" />
+            <p>{data?.file?.name}</p>
+            {data?.file && (
+              <audio controls>
+                <source
+                  src={URL.createObjectURL(data?.file)}
+                  type="audio/mpeg"
+                />
+              </audio>
+            )}
           </div>
           <div className="card mt-4">
-            <img src={Cover_img} alt="" />
+            <img src={data?.selectedImage} alt="" />
           </div>
         </div>
       </div>

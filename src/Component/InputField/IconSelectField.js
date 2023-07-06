@@ -35,7 +35,7 @@ const IconSelectField = ({
   };
 
   useEffect(() => {
-    onChange({ target: { name: name, value: inputFields } });
+    inputFields[0]?.value && onChange({ target: { name: name, value: inputFields } });
   }, [inputFields]);
 
   return (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import shortid from "shortid";
 import UploadIcon from "../assets/icons/Upload.svg";
 
-const ImageUploadForm = ({onChange}) => {
+const ImageUploadForm = ({ onChange }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileInfo, setFileInfo] = useState(null);
   const [files, setFiles] = useState([]);
@@ -32,6 +32,7 @@ const ImageUploadForm = ({onChange}) => {
         });
       };
       reader.readAsDataURL(file);
+      setUpoladFiles(file);
     }
   };
 
@@ -40,18 +41,18 @@ const ImageUploadForm = ({onChange}) => {
     setFileInfo(null);
   };
 
-  const handleDeleteFile = (id) => {
-    if (window.confirm("Are you sure you want to delete this image?")) {
-      const result = files.filter((data) => data.id !== id);
-      setFiles(result);
-    }
-  };
+  // const handleDeleteFile = (id) => {
+  //   if (window.confirm("Are you sure you want to delete this image?")) {
+  //     const result = files.filter((data) => data.id !== id);
+  //     setFiles(result);
+  //   }
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (fileInfo) {
       setFiles((prevFiles) => [...prevFiles, fileInfo]);
-      setUpoladFiles(selectedFile)
+      // setUpoladFiles(selectedFile)
       // Reset the form
       deleteFile();
     } else {
@@ -60,8 +61,8 @@ const ImageUploadForm = ({onChange}) => {
   };
 
   useEffect(() => {
-    onChange('image', uploadFiles);
-  }, [uploadFiles]);
+    uploadFiles && selectedFile && onChange({ image: uploadFiles, selectedImage: selectedFile });
+  }, [uploadFiles, selectedFile]);
 
   return (
     <div>
@@ -106,7 +107,7 @@ const ImageUploadForm = ({onChange}) => {
                                 Modified Time: {fileInfo.datetime}
                               </span>
                             </p>
-                            <div className="file-actions">
+                            {/* <div className="file-actions">
                               <button
                                 type="button"
                                 className="file-action-btn"
@@ -114,18 +115,18 @@ const ImageUploadForm = ({onChange}) => {
                               >
                                 Delete
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
                     )}
-                    <div className="kb-buttons-box">
+                    {/* <div className="kb-buttons-box">
                       <button type="submit" className="btn" disabled={files?.length}>
                         Upload
                       </button>
-                    </div>
+                    </div> */}
                   </form>
-                  {files.length > 0 && (
+                  {/* {files.length > 0 && (
                     <div className="kb-attach-box">
                       <hr />
                       {files.map((data) => {
@@ -163,7 +164,7 @@ const ImageUploadForm = ({onChange}) => {
                         );
                       })}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

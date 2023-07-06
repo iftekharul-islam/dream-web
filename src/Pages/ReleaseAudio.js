@@ -10,7 +10,6 @@ import OptionService from "../Service/OptionService";
 
 const ReleaseAudio = () => {
   const navigate = useNavigate();
-
   const [options, setOptions] = useState({});
   const getOptions = async () => {
     const artist = await OptionService.getArtist();
@@ -34,7 +33,7 @@ const ReleaseAudio = () => {
   }, []);
 
   const [data, setData] = useState();
-  console.log("🚀 ~ file: ReleaseAudio.js:37 ~ ReleaseAudio ~ data:", data)
+  console.log("🚀 ~ file: ReleaseAudio.js:36 ~ ReleaseAudio ~ data:", data)
   const { state } = useLocation();
   useEffect(() => {
     if (state?.data) {
@@ -56,10 +55,10 @@ const ReleaseAudio = () => {
     });
   };
 
-  const handleFileChange = (name, file) => {
+  const handleFileChange = (val) => {
     setData({
       ...data,
-      [name]: file,
+      ...val,
     });
   };
 

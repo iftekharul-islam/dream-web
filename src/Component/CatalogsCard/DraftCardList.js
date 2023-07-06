@@ -11,7 +11,7 @@ const DraftCardList = ({cardData}) => {
         <Link to='/catalog_details'>
           <Card
             key={index}
-            sImg={card?.images && card?.images[0]?.image_download_url}
+            sImg={card?.images && card?.images?.image_download_url}
             title={card?.title}
             sTitle={card?.subtitle}
             status={Draft}

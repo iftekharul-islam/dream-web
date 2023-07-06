@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import shortid from "shortid";
 import UploadIcon from "../assets/icons/Upload.svg";
 
-const AudioUploadForm = ({onChange}) => {
+const AudioUploadForm = ({ onChange }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [file, setFile] = useState(null);
+  const [uploadFiles, setUpoladFiles] = useState(null);
 
   const fileSizes = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
@@ -18,6 +19,7 @@ const AudioUploadForm = ({onChange}) => {
   const handleInputChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
+    setUpoladFiles(file);
   };
 
   const deleteSelectedFile = () => {
@@ -56,8 +58,8 @@ const AudioUploadForm = ({onChange}) => {
   };
 
   useEffect(() => {
-    onChange('file', [file]);
-  }, [file]);
+    uploadFiles && onChange({ file: uploadFiles });
+  }, [uploadFiles]);
 
   return (
     <div className="fileupload-view">
@@ -80,7 +82,9 @@ const AudioUploadForm = ({onChange}) => {
                         <img src={UploadIcon} alt="" className="mb-2" />
                         <span>
                           Drag and drop or
-                          <span className="file-link">Choose your audio file</span>
+                          <span className="file-link">
+                            Choose your audio file
+                          </span>
                         </span>
                         <span>- Format: .mp3, .wav</span>
                       </div>
@@ -90,7 +94,10 @@ const AudioUploadForm = ({onChange}) => {
                     {selectedFile && selectedFile.name.match(/.(mp3|wav)$/i) ? (
                       <div className="audio-preview">
                         <audio controls>
-                          <source src={URL.createObjectURL(selectedFile)} type="audio/mpeg" />
+                          <source
+                            src={URL.createObjectURL(selectedFile)}
+                            type="audio/mpeg"
+                          />
                           Your browser does not support the audio element.
                         </audio>
                       </div>
@@ -101,10 +108,13 @@ const AudioUploadForm = ({onChange}) => {
                         <p>
                           <span>Size: {fileSizes(selectedFile.size)}</span>
                           <span className="ml-2">
-                            Modified Time: {selectedFile.lastModifiedDate.toLocaleString("en-IN")}
+                            Modified Time:{" "}
+                            {selectedFile.lastModifiedDate.toLocaleString(
+                              "en-IN"
+                            )}
                           </span>
                         </p>
-                        <div className="file-actions">
+                        {/* <div className="file-actions">
                           <button
                             type="button"
                             className="file-action-btn"
@@ -112,17 +122,17 @@ const AudioUploadForm = ({onChange}) => {
                           >
                             Delete
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     )}
                   </div>
-                  <div className="kb-buttons-box">
+                  {/* <div className="kb-buttons-box">
                     <button type="submit" className="btn" disabled={file}>
                       Upload
                     </button>
-                  </div>
+                  </div> */}
                 </form>
-                {file && (
+                {/* {file && (
                   <div className="kb-attach-box">
                     <hr />
                     {file.filename.match(/.(mp3|wav)$/i) ? (
@@ -153,7 +163,7 @@ const AudioUploadForm = ({onChange}) => {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>

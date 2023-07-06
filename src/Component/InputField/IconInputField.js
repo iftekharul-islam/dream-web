@@ -26,7 +26,7 @@ const IconInputField = ({ labels, ids, placeholders, star, name, onChange }) => 
   };
 
   useEffect(() => {
-    onChange({target:{name: name, value: inputFields}})
+    inputFields[0]?.name && onChange({target:{name: name, value: inputFields}})
   }, [inputFields])
 
   return (

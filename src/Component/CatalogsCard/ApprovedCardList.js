@@ -12,7 +12,7 @@ const ApprovedCardList = ({ cardData }) => {
           <div className="col-lg-3 col-md-6 col-sm-12" key={index}>
             <Link to="/catalog_details">
               <Card
-                sImg={card?.images && card?.images[0]?.image_download_url}
+                sImg={card?.images && card?.images?.image_download_url}
                 title={card?.title}
                 sTitle={card?.subtitle}
                 status={Approve}
