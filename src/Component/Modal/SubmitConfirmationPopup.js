@@ -5,7 +5,6 @@ import AudioService from "../../Service/AudioService";
 import TermsAndConditionsCheckbox from "../Checkbox/TermsAndConditionsCheckbox";
 
 function SubmitConfirmationPopup({data}) {
-  console.log("🚀 ~ file: SubmitConfirmationPopup.js:8 ~ SubmitConfirmationPopup ~ data:", data)
   const navigate =useNavigate()
   const [show, setShow] = useState(false);
   const [isChecked, setIsChecked] = useState(false);

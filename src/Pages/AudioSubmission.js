@@ -1,16 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BiMusic } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import CatalogsInfo from "../Component/CatalogsInfo/CatalogsInfo";
 import SubmitConfirmationPopup from "../Component/Modal/SubmitConfirmationPopup";
+import OptionService from "../Service/OptionService";
 
 const AudioSubmission = () => {
   const navigate = useNavigate();
+  const [options, setOptions] = useState({});
+  const getOptions = async () => {
+    const artist = await OptionService.getArtist();
+    const genre = await OptionService.getGenre();
+    const language = await OptionService.getLanguage();
+    const label = await OptionService.getLabel();
+    const format = await OptionService.getFormat();
+    const advisory = await OptionService.getAdvisory();
+    setOptions({
+      ...options,
+      artist: artist,
+      genre: genre,
+      language: language,
+      label: label,
+      format: format,
+      advisory: advisory,
+    });
+  };
+  useEffect(() => {
+    getOptions();
+  }, []);
+
   const { data } = useLocation()?.state;
-  console.log(
-    "🚀 ~ file: AudioSubmission.js:11 ~ AudioSubmission ~ data:",
-    data
-  );
 
   const handleEditButton = () => {
     navigate(`/release-audio`, {
@@ -40,7 +59,7 @@ const AudioSubmission = () => {
       </div>
       <div className="row mt-5">
         <div className="col-lg-9 col-md-12">
-          <CatalogsInfo data={data} />
+          <CatalogsInfo data={data} options={options}/>
           <div className="row s_info mt-5">
             <h2 className="mb-4">Release Information</h2>
             <div className="col-lg-3">

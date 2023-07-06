@@ -257,16 +257,16 @@ const ReleaseAudio = () => {
                 label="℗ line"
                 star="*"
                 placeholder="Enter ℗ line"
-                name="p_name"
-                value={data?.p_name}
+                name="p_line"
+                value={data?.p_line}
                 onChange={handleChange}
               />
               <InputField
                 label="© line"
                 star="*"
                 placeholder="Enter © line"
-                name="c_name"
-                value={data?.c_name}
+                name="c_line"
+                value={data?.c_line}
                 onChange={handleChange}
               />
               <InputField
@@ -289,8 +289,9 @@ const ReleaseAudio = () => {
                 </label>
                 <Selector
                   options={options?.advisory}
-                  name="advisory_id"
+                  name="parental_advisory_id"
                   placeholder="Select Parental Advisory"
+                  value={options?.advisory?.find(item=>item.value==data?.parental_advisory_id)}
                   onChange={handleSelectChange}
                 />
               </div>
