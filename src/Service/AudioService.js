@@ -5,12 +5,14 @@ const getAllData = async(params)=>{
     return res.data;
 }
 
-const logout = () => {
+const addAudio = async(data) => {
+  const res = await http.post("/audio", data);
+    return res.data;
 };
 
 const AudioService = {
     getAllData,
-  logout,
+    addAudio,
 };
 
 export default AudioService;

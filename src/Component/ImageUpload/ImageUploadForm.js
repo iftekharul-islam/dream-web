@@ -6,6 +6,7 @@ const ImageUploadForm = ({onChange}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileInfo, setFileInfo] = useState(null);
   const [files, setFiles] = useState([]);
+  const [uploadFiles, setUpoladFiles] = useState(null);
 
   const filesizes = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
@@ -50,6 +51,7 @@ const ImageUploadForm = ({onChange}) => {
     e.preventDefault();
     if (fileInfo) {
       setFiles((prevFiles) => [...prevFiles, fileInfo]);
+      setUpoladFiles(selectedFile)
       // Reset the form
       deleteFile();
     } else {
@@ -58,8 +60,8 @@ const ImageUploadForm = ({onChange}) => {
   };
 
   useEffect(() => {
-    onChange('image', files);
-  }, [files]);
+    onChange('image', uploadFiles);
+  }, [uploadFiles]);
 
   return (
     <div>

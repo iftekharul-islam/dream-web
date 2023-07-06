@@ -1,6 +1,6 @@
 import React from "react";
 
-const CatalogsInfo = () => {
+const CatalogsInfo = ({data}) => {
   return (
     <div className="submission_page-info">
       <div className="row s_info">
@@ -9,15 +9,14 @@ const CatalogsInfo = () => {
           <div className="row items m-0">
             <div className="col-lg-4 col-md-12 item">
               <div className="input_value">
-                <p className="input_name">Release Title</p> <span>: empty</span>
+                <p className="input_name">Release Title</p> <span>: {data?.title}</span>
               </div>
               <div className="input_value">
-                <p className="input_name">Version/Subtitle</p>{" "}
-                <span>: empty</span>
+                <p className="input_name">Version/Subtitle</p> <span>: {data?.subtitle}</span>
               </div>
               <div className="input_value">
                 <p className="input_name">Primary Artist</p>{" "}
-                <span>: empty</span>
+                <span>: {data?.subtitle}</span>
               </div>
               <div className="input_value">
                 <p className="input_name">Featuring</p> <span>: empty</span>

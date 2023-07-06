@@ -34,7 +34,7 @@ const columns = [
     dataIndex: "status",
     render: (status, row) => {
       if(status == 1) return <span>Wait for Admin Reply</span>
-      if(status == 2) return <SupportReplyPopup id={row?.id}/>
+      if(status == 2) return <SupportReplyPopup row={row}/>
       if(status == 3) return <span>Conversation is Over</span>
     },
   },

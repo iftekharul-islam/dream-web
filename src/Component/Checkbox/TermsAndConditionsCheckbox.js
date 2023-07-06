@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const TermsAndConditionsCheckbox = () => {
-  const [isChecked, setIsChecked] = useState(false);
+const TermsAndConditionsCheckbox = ({isChecked, setIsChecked}) => {  
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);

@@ -1,13 +1,24 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import AudioService from "../../Service/AudioService";
 import TermsAndConditionsCheckbox from "../Checkbox/TermsAndConditionsCheckbox";
 
-function SubmitConfirmationPopup() {
+function SubmitConfirmationPopup({data}) {
+  console.log("🚀 ~ file: SubmitConfirmationPopup.js:8 ~ SubmitConfirmationPopup ~ data:", data)
+  const navigate =useNavigate()
   const [show, setShow] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleSubmit = async() => {
+    const res = await AudioService.addAudio(data);
+    if(res?.status == 201){
+      navigate('/pending')
+    }
+  }
 
   return (
     <>
@@ -19,11 +30,12 @@ function SubmitConfirmationPopup() {
           <Modal.Title>Let me know your problem</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <TermsAndConditionsCheckbox/>
+          <TermsAndConditionsCheckbox isChecked={isChecked} setIsChecked={setIsChecked} />
         </Modal.Body>
         <Modal.Footer>
           <div className="btn_area">
-          <Link to="/pending" className="btn_s">Confirm Submit</Link>
+          <button className={isChecked ? "btn_s" : "btn"} onClick={handleSubmit} disabled={!isChecked}>Confirm Submit</button>
+          {/* <Button className="btn_s" onClick={handleSubmit} disabled >Confirm Submit</Button> */}
           </div>
         </Modal.Footer>
       </Modal>

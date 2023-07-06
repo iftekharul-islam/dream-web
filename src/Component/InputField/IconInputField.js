@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import {BsTrash } from 'react-icons/bs';
+import React, { useEffect, useState } from 'react';
 import { AiOutlinePlus } from "react-icons/ai";
+import { BsTrash } from 'react-icons/bs';
 
-const IconInputField = ({ labels, ids, placeholders, star }) => {
-  const [inputFields, setInputFields] = useState([{ id: 1, value: '' }]);
+const IconInputField = ({ labels, ids, placeholders, star, name, onChange }) => {
+  const [inputFields, setInputFields] = useState([{ id: 1, name: '' }]);
 
   const handleAddInputField = () => {
-    const newInputFields = [...inputFields, { id: Date.now(), value: '' }];
+    const newInputFields = [...inputFields, { id: Date.now(), name: '' }];
     setInputFields(newInputFields);
   };
 
@@ -18,12 +18,16 @@ const IconInputField = ({ labels, ids, placeholders, star }) => {
   const handleInputChange = (id, value) => {
     const updatedInputFields = inputFields.map((field) => {
       if (field.id === id) {
-        return { ...field, value };
+        return { ...field, name: value };
       }
       return field;
     });
     setInputFields(updatedInputFields);
   };
+
+  useEffect(() => {
+    onChange({target:{name: name, value: inputFields}})
+  }, [inputFields])
 
   return (
     <div className='position-relative'>
@@ -35,7 +39,7 @@ const IconInputField = ({ labels, ids, placeholders, star }) => {
               id={ids[index]}
               type="text"
               placeholder={placeholders[index]}
-              value={field.value}
+              value={field.name}
               onChange={(e) => handleInputChange(field.id, e.target.value)}
             />
             {index > 0 && (

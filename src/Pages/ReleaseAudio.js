@@ -63,21 +63,6 @@ const ReleaseAudio = () => {
     });
   };
 
-  const [name, setName] = useState("");
-  const [version_S, setVersion_S] = useState("");
-  const [primaryArtist, setPrimaryArtist] = useState("");
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleversion_SChange = (event) => {
-    setVersion_S(event.target.value);
-  };
-  const handlePrimaryArtistChange = (event) => {
-    // setPrimaryArtist(event.target.value);
-  };
-
   // Preivew Button
   const handleButtonClick = () => {
     navigate(`/audio_submission`, {
@@ -109,7 +94,7 @@ const ReleaseAudio = () => {
                 star="*"
                 placeholder="Enter Release Title"
                 name="title"
-                value={data?.name}
+                value={data?.title}
                 onChange={handleChange}
               />
               <InputField
@@ -123,20 +108,24 @@ const ReleaseAudio = () => {
                 labels={["Primary Artist", "Secondary Artist"]}
                 ids={["input1", "input2"]}
                 placeholders={[null, null]}
-                onChange={handlePrimaryArtistChange}
-                value={primaryArtist}
+                name="artist"
+                onChange={handleChange}
                 star="*"
                 options={options}
               />
               <IconInputField
-                labels={["Featuring", "Secondary Artist"]}
+                labels={["Featuring", "Secondary Featuring"]}
                 ids={["input1", "input2"]}
                 placeholders={[null, null]}
+                name="featuring"
+                onChange={handleChange}
               />
               <IconInputField
                 labels={["Remixer", "Secondary Remixer"]}
                 ids={["input1", "input2"]}
                 placeholders={[null, null]}
+                name="remixer"
+                onChange={handleChange}
               />
               <div className="add_input mt-3">
                 <InputField
@@ -156,8 +145,8 @@ const ReleaseAudio = () => {
                   labels={["Composer", "Secondary Composer"]}
                   ids={["input1", "input2"]}
                   placeholders={[null, null]}
-                  onChange={handlePrimaryArtistChange}
-                  value={primaryArtist}
+                  name="composer"
+                  onChange={handleChange}
                   star="*"
                 />
                 <p className="input_desc">
@@ -182,11 +171,15 @@ const ReleaseAudio = () => {
                 labels={["Arranger", "Secondary Arranger"]}
                 ids={["input1", "input2"]}
                 placeholders={[null, null]}
+                name="arranger"
+                onChange={handleChange}
               />
               <IconInputField
                 labels={["Producer", "Secondary Producer"]}
                 ids={["input1", "input2"]}
                 placeholders={[null, null]}
+                name="producer"
+                onChange={handleChange}
               />
               <InputField
                 label="Original Release Date"

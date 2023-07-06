@@ -1,18 +1,44 @@
-import { useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { AiFillMessage } from "react-icons/ai";
-import TextField from '../TextBox/TextField';
+import SupportService from "../../Service/SupportService";
+import InputField from "../InputField/InputField";
 
-function SupportReplyPopup({id}) {
+function SupportReplyPopup({ row }) {
   const [show, setShow] = useState(false);
+  const [data, setData] = useState(null);
+  const [message, setMessage] = useState(null);
+
+  const getData = async () => {
+    const res = await SupportService.getSingleData(row?.id);
+    setData(res);
+  };
+
+  useEffect(() => {
+    if (show && row?.id) {
+      getData();
+      setMessage({ ...message, support_ticket_id: row?.id });
+    }
+  }, [show, row?.id]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const onChange = (e) => {
+    setMessage({ ...message, message: e?.target?.value });
+  };
+
+  const handleSend = async() => {
+    const res = await SupportService.sendMessage(message);
+    getData();
+    setMessage({ ...message, message: '' });
+  };
+
   return (
     <>
       <button className="reply_btn" onClick={handleShow}>
-        Reply
+        Reply {row?.unread_for_user>0 && "("+row?.unread_for_user+")"}
         <AiFillMessage className="icons" />
       </button>
       <Modal show={show} onHide={handleClose} className="s-popup" size="lg">
@@ -21,28 +47,35 @@ function SupportReplyPopup({id}) {
         </Modal.Header>
         <Modal.Body>
           <div className="chat_box">
-            <div className="message-box">
-              <h2 className="mb-2">Mahfuzur Rahman</h2>
-              <div className="box">
-              <p>Hello, <br /> I want to change this cover photo?</p>
-              </div>
-            </div>
-            <div className="message-box author_box">
-              <h2 className="mb-2">Author</h2>
-              <div className="box"><p>Hello</p></div>
-            </div>
-            <TextField
-                label="Messages"
-                type="text"
-              />
+            {data?.map((text) => {
+              return (
+                <div
+                  className={`message-box ${text?.sender == 1 && "author_box"}`}
+                >
+                  <div className="box">
+                    <small>{text?.message}</small>
+                    <br />
+                    <p>{moment(text?.created_at).format('hh:mmA on DD MMM YYYY')}</p>
+                    <p>Sent {text?.sender == 1 ? "from You" : "by Admin"}</p>
+                  </div>
+                </div>
+              );
+            })}
+
+            <InputField
+              label="Messages"
+              type="text"
+              onChange={onChange}
+              value={message?.message}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
           <div className="btn_area">
-            <button className="btn" onClick={handleClose}>
+            <button className="btn" onClick={handleSend}>
               Send
             </button>
-              {/* <UploadButton /> */}
+            {/* <UploadButton /> */}
           </div>
         </Modal.Footer>
       </Modal>

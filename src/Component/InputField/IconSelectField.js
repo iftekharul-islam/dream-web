@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { BsTrash } from 'react-icons/bs';
-import Selector from "../Selector/Selector";
+import { BsTrash } from "react-icons/bs";
+import MultiSelector from "../Selector/MultiSelector";
 
-const IconSelectField = ({ labels, ids, placeholders, star, options }) => {
-  const [inputFields, setInputFields] = useState([{ id: 1, value: '' }]);
+const IconSelectField = ({
+  labels,
+  ids,
+  placeholders,
+  name,
+  star,
+  options,
+  onChange,
+}) => {
+  const [inputFields, setInputFields] = useState([{ id: 1, value: "" }]);
 
   const handleAddInputField = () => {
-    const newInputFields = [...inputFields, { id: Date.now(), value: '' }];
+    const newInputFields = [...inputFields, { id: Date.now(), value: "" }];
     setInputFields(newInputFields);
   };
 
@@ -26,13 +34,24 @@ const IconSelectField = ({ labels, ids, placeholders, star, options }) => {
     setInputFields(updatedInputFields);
   };
 
+  useEffect(() => {
+    onChange({ target: { name: name, value: inputFields } });
+  }, [inputFields]);
+
   return (
-    <div className='position-relative'>
+    <div className="position-relative">
       {inputFields.map((field, index) => (
         <div className="new-input-field" key={field.id}>
           <div className="input-row">
-            <label htmlFor={ids[index]}>{labels[index]} <span className='input_star'>{star}</span> </label>
-            <Selector options={options?.artist} />
+            <label htmlFor={ids[index]}>
+              {labels[index]} <span className="input_star">{star}</span>{" "}
+            </label>
+            <MultiSelector
+              options={options?.artist}
+              value={inputFields?.find((item) => item?.id == field?.id)?.label}
+              onChange={handleInputChange}
+              fieldId={field?.id}
+            />
             {index > 0 && (
               <BsTrash
                 className="delete-icon"

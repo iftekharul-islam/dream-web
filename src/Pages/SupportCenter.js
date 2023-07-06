@@ -7,7 +7,6 @@ import SupportService from "../Service/SupportService";
 
 function SupportCenter() {
   const [uploadData, setUploadData] = useState(null);
-  console.log("🚀 ~ file: SupportCenter.js:11 ~ SupportCenter ~ uploadData:", uploadData)
   
   const handleChange = (event) => {
     setUploadData({...uploadData, [event?.target?.name] : event?.target?.value});
@@ -71,7 +70,7 @@ function SupportCenter() {
           <div className="connect_wp">
           <IoLogoWhatsapp className="icons" />
           <p>Live WhatsApp Support</p>
-          <a className="btn" href="https://wa.me/01677756337" target="_blank">Chet Now</a>
+          <a className="btn" href="https://wa.me/01677756337" target="_blank">Chat Now</a>
           </div>
         </div>
       </div>

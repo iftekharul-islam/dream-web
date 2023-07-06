@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BiMusic } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CatalogsInfo from "../Component/CatalogsInfo/CatalogsInfo";
@@ -8,6 +8,7 @@ import Cover_img from '../Component/assets/img/cover.jpg';
 const AudioSubmission = () => {
   const navigate = useNavigate();
   const { data } = useLocation()?.state;
+  console.log("🚀 ~ file: AudioSubmission.js:11 ~ AudioSubmission ~ data:", data)
 
   const handleEditButton = () => {
     navigate(`/release-audio`, {
@@ -16,6 +17,11 @@ const AudioSubmission = () => {
       },
     });
   };
+
+  useEffect(()=>{
+    if(!data) navigate('/release-audio');
+  })
+
   return (
     <>
       <div className="section_title">
@@ -24,13 +30,13 @@ const AudioSubmission = () => {
           <p>Release your submission</p>
         </div>
         <div className="btn_area">
-          <SubmitConfirmationPopup />
+          <SubmitConfirmationPopup data={data}/>
           <Link className="btn_s" onClick={handleEditButton}>Edit</Link>
         </div>
       </div>
       <div className="row mt-5">
         <div className="col-lg-9 col-md-12">
-          <CatalogsInfo />
+          <CatalogsInfo data={data} />
           <div className="row s_info mt-5">
             <h2 className="mb-4">Release Information</h2>
             <div className="col-lg-3">
