@@ -24,11 +24,6 @@ function ApprovedCatalog() {
     getData();
   }, [params]);
 
-  // const onShowSizeChange = (current, pageSize) => {
-  //   setParams({...params, perPage: pageSize})
-  //   console.log("🚀 ~ file: ApprovedCatalog.js:29 ~ onShowSizeChange ~ pageSize:", pageSize)
-  // };
-
   const onChange = (e) => {
     setParams({...params, page: e})
   };

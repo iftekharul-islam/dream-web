@@ -1,7 +1,9 @@
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 
-const CatalogsInfo = ({ data, options }) => {
+const CatalogsInfoDetails = ({ data }) => {
+  const [options, setOptions] = useState([]);
+  console.log("🚀 ~ file: CatalogsInfoDetails.js:5 ~ CatalogsInfoDetails ~ data:", data)
   return (
     <div className="submission_page-info">
       <div className="row s_info">
@@ -17,7 +19,7 @@ const CatalogsInfo = ({ data, options }) => {
                     <span className="px-1">{data?.title}</span>
                   ) : (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      N/A 
                     </span>
                   )}
                 </span>
@@ -26,36 +28,32 @@ const CatalogsInfo = ({ data, options }) => {
                 <p className="input_name">Version/Subtitle</p>{" "}
                 <span>: {data?.subtitle ?? "N/A"}</span>
               </div>
-              {data?.artist ? (
-                data?.artist?.map((item, index) => (
+              {data?.artists ? (
+                data?.artists?.map((item, index) => (
                   <div className="input_value">
                     <p className="input_name">
                       {index ? "Secondary Artist" : "Primary Artist"}
                     </p>{" "}
                     <span>
-                      :
-                      {
-                        options?.artist?.find((itm) => itm?.value == item.value)
-                          ?.label
-                      }
+                      : {item?.artist?.title}
                     </span>
                   </div>
                 ))
               ) : (
                 <div className="input_value">
-                  <p className="input_name">PrimaryArtist</p>{" "}:{" "}
+                  <p className="input_name">Primary Artist</p>{" "}:{" "}
                   <span className="px-1">
-                    N/A <span className="text-danger px-1">required</span>
+                    N/A 
                   </span>
                 </div>
               )}              
-              {data?.featuring ? (
-                data?.featuring?.map((item, index) => (
+              {data?.featurings ? (
+                data?.featurings?.map((item, index) => (
                   <div className="input_value">
                     <p className="input_name">
                       {index ? "Secondary Featuring" : "Primary Featuring"}
                     </p>{" "}
-                    <span>: {item?.name}</span>
+                    <span>: {item?.featuring}</span>
                   </div>
                 ))
               ) : (
@@ -65,13 +63,13 @@ const CatalogsInfo = ({ data, options }) => {
                 </div>
               )}
 
-              {data?.remixer ? (
-                data?.remixer?.map((item, index) => (
+              {data?.remixers ? (
+                data?.remixers?.map((item, index) => (
                   <div className="input_value">
                     <p className="input_name">
                       {index ? "Secondary Remixer" : "Primary Remixer"}
                     </p>{" "}
-                    <span>: {item?.name}</span>
+                    <span>: {item?.remixer}</span>
                   </div>
                 ))
               ) : (
@@ -86,18 +84,18 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {data?.writter ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      N/A 
                     </span>
                   )}
                 </span>
               </div>
-              {data?.composer ? (
-                data?.composer?.map((item, index) => (
+              {data?.composers ? (
+                data?.composers?.map((item, index) => (
                   <div className="input_value">
                     <p className="input_name">
                       {index ? "Secondary Composer" : "Primary Composer"}
                     </p>{" "}
-                    <span>: {item?.name}</span>
+                    <span>: {item?.composer}</span>
                   </div>
                 ))
               ) : (
@@ -106,7 +104,7 @@ const CatalogsInfo = ({ data, options }) => {
                   <span>
                     :{" "}
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      N/A 
                     </span>
                   </span>
                 </div>
@@ -119,18 +117,18 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {data?.main_release_date ? moment(data?.main_release_date).format("DD MMM YYYY") : (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      N/A 
                     </span>
                   )}
                 </span>
               </div>
-              {data?.arranger ? (
-                data?.arranger?.map((item, index) => (
+              {data?.arrangers ? (
+                data?.arrangers?.map((item, index) => (
                   <div className="input_value">
                     <p className="input_name">
                       {index ? "Secondary Arranger" : "Primary Arranger"}
                     </p>{" "}
-                    <span>: {item?.name}</span>
+                    <span>: {item?.arranger}</span>
                   </div>
                 ))
               ) : (
@@ -139,13 +137,13 @@ const CatalogsInfo = ({ data, options }) => {
                   <span>: N/A</span>
                 </div>
               )}
-              {data?.producer ? (
-                data?.producer?.map((item, index) => (
+              {data?.producers ? (
+                data?.producers?.map((item, index) => (
                   <div className="input_value">
                     <p className="input_name">
                       {index ? "Secondary Producer" : "Primary Producer"}
                     </p>{" "}
-                    <span>: {item?.name}</span>
+                    <span>: {item?.producer}</span>
                   </div>
                 ))
               ) : (
@@ -160,7 +158,7 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {data?.original_release_date ? moment(data?.original_release_date).format("DD MMM YYYY") : (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      N/A 
                     </span>
                   )}
                 </span>
@@ -169,39 +167,21 @@ const CatalogsInfo = ({ data, options }) => {
                 <p className="input_name">Lyrics Language</p>{" "}
                 <span>
                   :{" "}
-                  {options?.language?.find(
-                    (itm) => itm?.value == data?.language_id
-                  )?.label ?? (
-                    <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
-                    </span>
-                  )}{" "}
+                  {data?.language ? data?.language?.name : "N/A"}
                 </span>
               </div>
               <div className="input_value">
                 <p className="input_name">Genre</p>{" "}
                 <span>
                   :{" "}
-                  {options?.genre?.find((itm) => itm?.value == data?.genre_id)
-                    ?.label ?? (
-                    <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
-                    </span>
-                  )}
+                  {data?.genre ? data?.genre?.name : "N/A"}
                 </span>
               </div>
               <div className="input_value">
                 <p className="input_name">Subgenre</p>{" "}
                 <span>
                   :{" "}
-                  {options?.genre
-                    ?.find((itm) => itm?.value == data?.genre_id)
-                    ?.subgenres?.find((itm) => itm?.value == data?.subgenre_id)
-                    ?.label ?? (
-                    <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
-                    </span>
-                  )}
+                  {data?.subgenre ? data?.subgenre?.name : "N/A"}
                 </span>
               </div>
             </div>
@@ -210,24 +190,14 @@ const CatalogsInfo = ({ data, options }) => {
                 <p className="input_name">Label Name</p>{" "}
                 <span>
                   :{" "}
-                  {options?.label?.find((itm) => itm?.value == data?.label_id)
-                    ?.label ?? (
-                    <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
-                    </span>
-                  )}
+                  {data?.label ? data?.label?.title : "N/A"}
                 </span>
               </div>
               <div className="input_value">
                 <p className="input_name">Format</p>{" "}
                 <span>
                   :{" "}
-                  {options?.format?.find((itm) => itm?.value == data?.format_id)
-                    ?.label ?? (
-                    <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
-                    </span>
-                  )}
+                  {data?.format ? data?.format?.name : "N/A"}
                 </span>
               </div>
               <div className="input_value">
@@ -236,7 +206,7 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {data?.p_line ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      N/A 
                     </span>
                   )}
                 </span>
@@ -247,7 +217,7 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {data?.c_line ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      N/A 
                     </span>
                   )}
                 </span>
@@ -264,9 +234,7 @@ const CatalogsInfo = ({ data, options }) => {
                 <p className="input_name">Parental Advisory</p>
                 <span>
                   :{" "}
-                  {options?.advisory?.find(
-                    (itm) => itm?.value == data?.parental_advisory_id
-                  )?.label ?? "N/A"}
+                  {data?.parental_advisory ? data?.parental_advisory?.name : "N/A"}
                 </span>
               </div>
               <div className="input_value">
@@ -281,4 +249,4 @@ const CatalogsInfo = ({ data, options }) => {
   );
 };
 
-export default CatalogsInfo;
+export default CatalogsInfoDetails;

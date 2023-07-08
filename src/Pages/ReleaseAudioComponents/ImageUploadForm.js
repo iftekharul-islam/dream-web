@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import shortid from "shortid";
-import UploadIcon from "../assets/icons/Upload.svg";
+import UploadIcon from "../../Component/assets/icons/Upload.svg";
 
 const ImageUploadForm = ({ data, onChange }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [fileInfo, setFileInfo] = useState(null);
-  const [image, setImage] = useState(null);
-
   const filesizes = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -17,30 +13,24 @@ const ImageUploadForm = ({ data, onChange }) => {
   };
 
   const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    onChange({ image: e.target.files[0] });
+    if (e.target.files[0]) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSelectedFile(reader.result);
-        setFileInfo({
-          id: shortid.generate(),
-          filename: file.name,
-          fileimage: reader.result,
-          datetime: file.lastModifiedDate.toLocaleString("en-IN"),
-          filesize: filesizes(file.size),
+        onChange({ selectedImage: reader.result });
+        onChange({
+          ImageInfo: {
+            id: shortid.generate(),
+            filename: e.target.files[0].name,
+            fileimage: reader.result,
+            datetime: e.target.files[0].lastModifiedDate.toLocaleString("en-IN"),
+            filesize: filesizes(e.target.files[0].size),
+          },
         });
       };
-      reader.readAsDataURL(file);
-      setImage(file);
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
-
-  useEffect(() => {
-    image &&
-      selectedFile &&
-      fileInfo &&
-      onChange({ image, selectedFile, fileInfo });
-  }, [image, selectedFile, fileInfo]);
 
   return (
     <div>
@@ -71,18 +61,18 @@ const ImageUploadForm = ({ data, onChange }) => {
                         </div>
                       </div>
                     </div>
-                    {selectedFile && (
+                    {data?.selectedImage && (
                       <div className="kb-attach-box mb-3">
                         <div className="file-atc-box">
                           <div className="file-image">
-                            <img src={selectedFile} alt="" />
+                            <img src={data?.selectedImage} alt="" />
                           </div>
                           <div className="file-detail">
-                            <h6>{fileInfo.filename}</h6>
+                            <h6>{data?.ImageInfo.filename}</h6>
                             <p>
-                              <span>Size: {fileInfo.filesize}</span>
+                              <span>Size: {data?.ImageInfo.filesize}</span>
                               <span className="ml-2">
-                                Modified Time: {fileInfo.datetime}
+                                Modified Time: {data?.ImageInfo.datetime}
                               </span>
                             </p>
                             {/* <div className="file-actions">

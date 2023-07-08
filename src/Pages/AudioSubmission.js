@@ -1,46 +1,17 @@
-import React, { useEffect, useState } from "react";
+import moment from "moment";
+import React, { useEffect } from "react";
 import { BiMusic } from "react-icons/bi";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import CatalogsInfo from "../Component/CatalogsInfo/CatalogsInfo";
 import SubmitConfirmationPopup from "../Component/Modal/SubmitConfirmationPopup";
-import OptionService from "../Service/OptionService";
 
 const AudioSubmission = () => {
   const navigate = useNavigate();
-  const [options, setOptions] = useState({});
-  const getOptions = async () => {
-    const artist = await OptionService.getArtist();
-    const genre = await OptionService.getGenre();
-    const language = await OptionService.getLanguage();
-    const label = await OptionService.getLabel();
-    const format = await OptionService.getFormat();
-    const advisory = await OptionService.getAdvisory();
-    setOptions({
-      ...options,
-      artist: artist,
-      genre: genre,
-      language: language,
-      label: label,
-      format: format,
-      advisory: advisory,
-    });
-  };
-  useEffect(() => {
-    getOptions();
-  }, []);
-
-  const { data } = useLocation()?.state;
-
-  const handleEditButton = () => {
-    navigate(`/release-audio`, {
-      state: {
-        data: data,
-      },
-    });
-  };
+  const { audioData, audioOptions } = useSelector((state) => state?.data);
 
   useEffect(() => {
-    if (!data) navigate("/release-audio");
+    if (!audioData) navigate("/release-audio");
   });
 
   return (
@@ -51,23 +22,32 @@ const AudioSubmission = () => {
           <p>Release your submission</p>
         </div>
         <div className="btn_area">
-          <SubmitConfirmationPopup data={data} />
-          <Link className="btn_s" onClick={handleEditButton}>
+          <SubmitConfirmationPopup data={audioData} />
+          <Link className="btn_s" to="/release-audio">
             Edit
           </Link>
         </div>
       </div>
       <div className="row mt-5">
         <div className="col-lg-9 col-md-12">
-          <CatalogsInfo data={data} options={options}/>
+          <CatalogsInfo data={audioData} options={audioOptions} />
           <div className="row s_info mt-5">
             <h2 className="mb-4">Release Information</h2>
-            <div className="col-lg-3">
+            <div className="col-lg-4">
               <div className="items">
                 <div className="item">
                   <div className="input_value">
                     <p className="input_name">Main Release Date</p>{" "}
-                    <span>: 12-12-2023</span>
+                    <span>
+                      :{" "}
+                      {audioData?.main_release_date ? (
+                        moment(audioData?.main_release_date).format("DD MMM YYYY")
+                      ) : (
+                        <span className="px-1">
+                          N/A <span className="text-danger px-1">required</span>
+                        </span>
+                      )}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -77,18 +57,28 @@ const AudioSubmission = () => {
         <div className="col-lg-3 col-md-12 mt-5 upload_info">
           <div className="card audio">
             <BiMusic className="icons" />
-            <p>{data?.file?.name}</p>
-            {data?.file && (
+            <p>{audioData?.file?.name}</p>
+            {audioData?.file ? (
               <audio controls>
                 <source
-                  src={URL.createObjectURL(data?.file)}
+                  src={URL.createObjectURL(audioData?.file)}
                   type="audio/mpeg"
                 />
               </audio>
+            ) : (
+              <div>
+                <p className="text-danger">Audio file is required</p>
+              </div>
             )}
           </div>
           <div className="card mt-4">
-            <img src={data?.selectedImage} alt="" />
+            {audioData?.selectedImage ? (
+              <img src={audioData?.selectedImage} alt="" />
+            ) : (
+              <div>
+                <p className="text-danger">Image is required</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
