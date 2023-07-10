@@ -6,7 +6,7 @@ function EarningOverviewChart() {
     series: [
       {
         name: "Total Earning",
-        data: [410, 500, 380, 510, 420, 1090, 1000, 800, 950, 700, 850, 750],
+        data: [460, 500, 380, 510, 420, 1090, 1000, 800],
       },
     ],
     options: {

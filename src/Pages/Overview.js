@@ -1,20 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EarningOverviewChart from "../Component/Chart/EarningOverviewChart";
 import Selector from "../Component/Selector/Selector";
 import EarningHistoryTable from "../Component/Table/EarningHistoryTable";
+import AccountService from "../Service/AccountService";
 
 function Earning() {
+  const [data, setData] = useState(null);
+
+  const getData = async (value) => {
+    const res = await AccountService.getOverViewData({year:value?.value});
+    if (res) {
+      setData(res);
+    }
+  };
+  useEffect(() => {
+    getData(null);
+  }, []);
+
   const options = [
+    { value: "2025", label: "2024" },
+    { value: "2024", label: "2025" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
     { value: "2021", label: "2021" },
   ];
 
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState({ value: "2023", label: "2023" });
 
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-    console.log(`Selected: ${selectedOption.label}`);
+  const handleChange = (name, value) => {
+    setSelectedOption(value);
+    getData(value)
   };
   return (
     <div>
@@ -33,6 +48,7 @@ function Earning() {
           <div>
             <Selector
               options={options}
+              name='year'
               onChange={handleChange}
               placeholder="This Year"
               value={selectedOption}
@@ -52,7 +68,7 @@ function Earning() {
               value={selectedOption}
             />
         </div>
-        <EarningHistoryTable/>
+        <EarningHistoryTable data={data?.transaction}/>
       </div>
     </div>
   );

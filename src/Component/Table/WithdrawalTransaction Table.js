@@ -32,29 +32,9 @@ const columns = [
     render: () => <Link to="">Download</Link>,
   },
 ];
-const data = [
-  {
-    key: "1",
-    date: "27-10-2001",
-    amount: "₹1235",
-    status: "Approved",
-  },
-  {
-    key: "2",
-    date: "27-10-2001",
-    amount: "₹1235",
-    status: "Pending",
-  },
-  {
-    key: "3",
-    date: "27-10-2001",
-    amount: "₹1235",
-    status: "Failed",
-  },
-];
 
-const WithdrawalTransactionTable = () => (
-  <Table columns={columns} dataSource={data} bordered scroll={{ x: 991}}/>
+const WithdrawalTransactionTable = ({data}) => (
+  <Table columns={columns} dataSource={data?.data} bordered scroll={{ x: 768}} pagination={{ pageSize: 5 }}/>
 );
 
 export default WithdrawalTransactionTable;

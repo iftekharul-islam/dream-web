@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CalenderField = ({ label, star, value, placeholder, onChange, type, error, disabled, name }) => {
+const CalenderField = ({ label, star, value, placeholder, onChange, type, error, disabled, name, min = null }) => {
   const inputId = label.replace(/\s+/g, '-').toLowerCase();
 
   return (
@@ -17,6 +17,7 @@ const CalenderField = ({ label, star, value, placeholder, onChange, type, error,
         onChange={onChange}
         required
         disabled={disabled} // Set the disabled attribute based on the prop
+        min={min}
       />
       {error && <p className="input_error">{error}</p>}
     </div>

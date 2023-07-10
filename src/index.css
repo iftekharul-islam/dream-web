@@ -644,6 +644,11 @@ Withdraw page
   height: 450px;
 }
 
+.bank_add_card-list {
+  height: 450px;
+  overflow-y: auto;
+}
+
 .bank_add_card .btn {
   width: 100%;
 }

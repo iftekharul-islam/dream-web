@@ -6,36 +6,33 @@ const columns = [
   },
   {
     title: "Month",
-    dataIndex: "month",
+    dataIndex: "for",
+  },
+  {
+    title: "Amount",
+    dataIndex: "amount"
   },
   {
     title: "Status",
-    dataIndex: "amount"
+    dataIndex: "status",
+    render: (status) => {
+      let color;
+      if (status === "Pending") {
+        color = "orange";
+      } else if (status === "Approved") {
+        color = "green";
+      } else if (status === "Failed") {
+        color = "red";
+      } else {
+        color = "black";
+      }
+      return <span style={{ color }}>{status}</span>;
+    },
   }
 ];
-const data = [
-  {
-    key: "1",
-    date: "27-10-2001",
-    month: "January",
-    amount: "₹ 2500",
-  },
-  {
-    key: "2",
-    date: "27-10-2001",
-    month: "February",
-    amount: "₹ 2500",
-  },
-  {
-    key: "3",
-    date: "27-10-2001",
-    month: "March",
-    amount: "₹ 2500",
-  },
-];
 
-const EarningHistoryTable = () => (
-  <Table columns={columns} dataSource={data} bordered scroll={{ x: 768}} />
+const EarningHistoryTable = ({data}) => (
+  <Table columns={columns} dataSource={data?.data} bordered scroll={{ x: 768}} pagination={{ pageSize: 5 }}/>
 );
 
 export default EarningHistoryTable;

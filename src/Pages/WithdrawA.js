@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardList from "../Component/BankCard/CardList";
 import AddBankPopup from "../Component/Modal/AddBankPopup";
 import WithdrawalTransactionTable from "../Component/Table/WithdrawalTransaction Table";
+import AccountService from "../Service/AccountService";
 
 function WithdrawA() {
-  const [balance, setBalance] = useState(0);
-  const isButtonActive = balance >= 100;
+  const [data, setData] = useState(null);
 
-  const handleWithdraw = () => {
-    if (balance >= 100) {
-      // Withdraw logic here
-      setBalance(0);
-      alert("Withdrawn ₹100.00");
+  const getData = async () => {
+    const res = await AccountService.getAllData();
+    if (res) {
+      setData(res);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const isButtonActive = data?.balance?.balance >= data?.minimum;
+  const handleWithdraw = async () => {
+    if (data?.balance?.balance >= data?.minimum) {
+      const res = await AccountService.withdrawBalance(100);
+      if (res?.status == 201) {
+        getData();
+        alert("Withdrawn ₹100.00");
+      }
     } else {
       alert("Withdrawal not possible");
     }
@@ -29,7 +42,7 @@ function WithdrawA() {
         <div className="col-lg-4">
           <div className="card withdraw_card">
             <h2>Available Amount</h2>
-            <h1>₹{balance.toFixed(2)}</h1>
+            <h1>₹{data?.balance?.balance?.toFixed(2)}</h1>
             <div className="btn_area">
               <button
                 className={`btn ${isButtonActive ? "active" : ""}`}
@@ -38,21 +51,23 @@ function WithdrawA() {
               >
                 Withdraw Balance
               </button>
-              <p>Minimum withdraw balance ₹100</p>
+              <p>Minimum withdraw balance ₹{data?.minimum}</p>
             </div>
           </div>
         </div>
         <div className="col-lg-4">
           <div className="card bank_add_card">
             <h2>How you get paid</h2>
-            <CardList />
-            <AddBankPopup/>
+            <div className="bank_add_card-list">
+              <CardList data={data?.banks} getData={getData} />
+            </div>
+            <AddBankPopup onUpdate={getData} />
           </div>
         </div>
       </div>
       <div className="table_content">
         <h1 className="mb-4">Recent Transactions</h1>
-        <WithdrawalTransactionTable/>
+        <WithdrawalTransactionTable data={data?.transaction}/>
       </div>
     </div>
   );

@@ -59,6 +59,13 @@ const ReleaseAudio = () => {
     navigate(`/audio_submission`);
   };
 
+  const date = new Date();
+
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let currentDate = `${year}-${month > 9 ? month : "0" + month}-${day}`;
+
   return (
     <>
       <div className="section_title">
@@ -67,7 +74,11 @@ const ReleaseAudio = () => {
           <p>Details About the Upcoming Release</p>
         </div>
         <div className="btn_area">
-          <button className="btn" onClick={handleButtonClick} disabled={!audioData}>
+          <button
+            className="btn"
+            onClick={handleButtonClick}
+            disabled={!audioData}
+          >
             Preview
           </button>
         </div>
@@ -157,6 +168,7 @@ const ReleaseAudio = () => {
                 name="main_release_date"
                 value={audioData?.main_release_date}
                 onChange={handleChange}
+                min={currentDate}
               />
               <IconInputField
                 labels={["Arranger", "Secondary Arranger"]}

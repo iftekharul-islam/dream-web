@@ -1,37 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
+import AccountService from "../../Service/AccountService";
 import Card from "./Card";
 
-function CardList() {
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
-
-  const cards = [
-    {
-      bankName: "Bank Name 1",
-      accountNumber: "1234",
-      companyName: "Company Name 1",
-    },
-    {
-      bankName: "Bank Name 2",
-      accountNumber: "5678",
-      companyName: "Company Name 2",
-    },
-    // Add more card objects as needed
-  ];
-
-  const activateCard = (index) => {
-    setActiveCardIndex(index);
+function CardList({data, getData}) {
+  const activateCard = async(index) => {
+    await AccountService.activateCard(index);
+    getData();
   };
 
   return (
     <div>
-      {cards.map((card, index) => (
+      {data?.map((data, index) => (
         <Card
           key={index}
-          bankName={card.bankName}
-          accountNumber={card.accountNumber}
-          companyName={card.companyName}
-          activateCard={() => activateCard(index)}
-          isActive={index === activeCardIndex}
+          bankName={data?.bank_name}
+          accountNumber={data?.account_number}
+          companyName={data?.account_name}
+          activateCard={() => activateCard(data?.id)}
+          isActive={data?.isPrimary}
         />
       ))}
     </div>

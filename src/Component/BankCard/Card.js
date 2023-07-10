@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import { BsBank2 } from "react-icons/bs";
+import React, { useEffect, useRef, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BsBank2 } from "react-icons/bs";
 
 function Card({ bankName, accountNumber, companyName, activateCard, isActive }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +40,6 @@ function Card({ bankName, accountNumber, companyName, activateCard, isActive }) 
         <div className="bank_info ms-4">
           <p>{bankName}</p>
           <p>
-            <span>....</span>
             {accountNumber}
           </p>
           <p>{companyName}</p>
@@ -54,7 +53,7 @@ function Card({ bankName, accountNumber, companyName, activateCard, isActive }) 
               <li className="primary" onClick={handlePrimaryClick}>
                 Primary
               </li>
-              <li className="mt-2" onClick={() => setIsMenuOpen(false)}>Edit</li>
+              {/* <li className="mt-2" onClick={() => setIsMenuOpen(false)}>Edit</li> */}
             </ul>
           </div>
         )}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ApprovedCardList from "../Component/CatalogsCard/ApprovedCardList";
 import PaginationList from "../Component/Pagination/PaginationList";
 import SearchBar from "../Component/SearchBar/SearchBar";
@@ -40,7 +41,7 @@ function ApprovedCatalog() {
           <p>Exploring our collections</p>
         </div>
         <div className="btn_area">
-          <button className="btn">Create Release</button>
+          <Link className="btn" to="/release-audio">Create Release</Link>
         </div>
       </div>
       <div className="mt-5">
