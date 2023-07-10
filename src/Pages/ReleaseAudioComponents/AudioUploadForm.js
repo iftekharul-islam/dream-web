@@ -41,7 +41,7 @@ const AudioUploadForm = ({ data, onChange }) => {
                             Choose your audio file
                           </span>
                         </span>
-                        <span>- Format: .mp3, .wav</span>
+                        <span>- Format: .wav</span>
                       </div>
                     </div>
                   </div>

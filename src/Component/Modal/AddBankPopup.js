@@ -1,39 +1,27 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import AccountService from "../../Service/AccountService";
 import InputField from "../InputField/InputField";
 
-function Example() {
+function AddBankPopup({ onUpdate }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [bname, setBName] = useState("");
-  const [name, setName] = useState("");
-  const [aNumber, setAnumber] = useState("");
-  const [reaNumber, setReAnumber] = useState("");
-  const [ifsc, setIFSC] = useState("");
-
-  const handleBNameChange = (event) => {
-    setBName(event.target.value);
+  const [data, setData] = useState({});
+  const onChange = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+  const onChangeChecked = (event) => {
+    setData({ ...data, [event.target.name]: event.target.checked ? 1 : 0 });
   };
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleSubmit = async () => {
+    await AccountService.addBankDetails(data);
+    handleClose();
+    onUpdate();
   };
-
-  const handleAnumberChange = (event) => {
-    setAnumber(event.target.value);
-  };
-
-  const handlReAnumberChange = (event) => {
-    setReAnumber(event.target.value);
-  };
-
-  const handlIFSCChange = (event) => {
-    setIFSC(event.target.value);
-  };
-
 
   return (
     <>
@@ -48,56 +36,77 @@ function Example() {
           <InputField
             type="text"
             label="Bank Name"
-            value={bname}
+            value={data?.bank_name}
+            name="bank_name"
             star="*"
-            onChange={handleBNameChange}
+            onChange={onChange}
           />
           <InputField
             type="text"
             label="Name On Bank Account"
-            value={name}
+            value={data?.account_name}
+            name="account_name"
             star="*"
-            onChange={handleNameChange}
+            onChange={onChange}
           />
           <InputField
             type="number"
             label="Account Number"
-            value={aNumber}
+            value={data?.account_number}
+            name="account_number"
             star="*"
-            onChange={handleAnumberChange}
+            onChange={onChange}
           />
           <InputField
             type="number"
             label="Re-type Account Number"
-            value={reaNumber}
+            value={data?.re_account_number}
+            name="re_account_number"
             star="*"
-            onChange={handlReAnumberChange}
+            onChange={onChange}
           />
           <InputField
             type="number"
             label="IFSC Code"
-            value={ifsc}
+            value={data?.ifsc}
+            name="ifsc"
             star="*"
-            onChange={handlIFSCChange}
+            onChange={onChange}
           />
           <div className="mt-3 check_box">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={data?.isPrimary}
+              name="isPrimary"
+              onChange={onChangeChecked}
+            />
             Set as primary method
           </div>
         </Modal.Body>
         <Modal.Footer>
-        <div className="btn_area">
-          <button className="btn" onClick={handleClose}>
-            Save
-          </button>
-          <button className="btn_s" onClick={handleClose}>
-            Close
-          </button>
-        </div>
+          <div className="btn_area">
+            <button
+              className="btn"
+              onClick={handleSubmit}
+              disabled={
+                !data?.bank_name ||
+                !data?.account_name ||
+                !data?.account_number ||
+                !data?.re_account_number ||
+                !data?.ifsc ||
+                data?.account_number != data?.re_account_number
+              }
+            >
+              Save
+            </button>
+            <button className="btn_s" onClick={handleClose}>
+              Close
+            </button>
+          </div>
         </Modal.Footer>
       </Modal>
     </>
   );
 }
 
-export default Example;
+export default AddBankPopup;

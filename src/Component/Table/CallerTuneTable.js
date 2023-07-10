@@ -1,372 +1,80 @@
 import { Table } from "antd";
-import airtelLogo from '../assets/img/Airtel.png';
-import coverImg from '../assets/img/cover.jpg';
-import vodafoneLogo from '../assets/img/vodafone.png';
 const columns = [
   {
     title: "Title",
-    dataIndex: "title",
+    dataIndex: "audio",
+    render: (audio) => {
+      return (
+        <div className="c_tune_table_title">
+          <img
+            src={audio?.images?.image_download_url}
+            alt=""
+            className="table_img"
+          />
+          <span>
+            {audio?.title}
+            <br /> By {audio?.artists[0]?.artist?.title}
+          </span>
+        </div>
+      );
+    },
   },
   {
     title: "Label",
-    dataIndex: "label",
+    dataIndex: "audio",
+    render: (audio) => {
+      return <span>{audio?.label?.title}</span>;
+    },
   },
   {
     title: "Upc/Catalogue Number",
-    dataIndex: "ucn",
+    dataIndex: "audio",
+    render: (audio) => {
+      return (
+        <span>
+          UPC: {audio?.upc} <br /> CAT#: {audio?.producer_catalogue_number}
+        </span>
+      );
+    },
   },
   {
     title: "Stores",
-    dataIndex: "stores",
+    dataIndex: "crbts",
+    render: (crbts) => {
+      return (
+        <div className="sim_icons">
+          {crbts?.map((crbt, index) => (
+            <img src={crbt?.icon} alt="" key={index} height="40px" width="40px"/>
+          ))}
+        </div>
+      );
+    },
   },
   {
     title: "Status",
-    dataIndex: "status",
-    render: (status) => {
+    dataIndex: "is_requested",
+    render: (is_requested) => {
       let color;
-      if (status === "Pending") {
-        color = "orange";
-      } else if (status === "Approved") {
+      if (is_requested) {
         color = "green";
-      } else if (status === "Failed") {
-        color = "red";
       } else {
-        color = "black";
+        color = "orange";
       }
-      return <span style={{ color }}>{status}</span>;
+      return (
+        <span style={{ color }}>{is_requested ? "Approved" : "Pending"}</span>
+      );
     },
   },
 ];
-const data = [
-  {
-    key: "1",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-    stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Approved",
-  },
-  {
-    key: "2",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-    stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Pending",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-  {
-    key: "3",
-    title: (
-        <div className="c_tune_table_title">
-            <img src={coverImg} alt="" className="table_img"/>
-        <span>
-          Title Here
-          <br /> By Name
-        </span>
-      </div>
-    ),
-    label: "no info",
-    ucn: (
-      <span>
-        UPC: 10 <br /> CAT#: 10
-      </span>
-    ),
-      stores: (
-        <div className="sim_icons">
-            <img src={airtelLogo} alt="" />
-            <img src={vodafoneLogo} alt="" />
-      </div>
-    ),
-    status: "Failed",
-  },
-];
 
-const CallerTuneTable = () => (
-  <Table columns={columns} dataSource={data} bordered scroll={{ x: 768 }} pagination size={500}/>
+const CallerTuneTable = ({ data }) => (
+  <Table
+    columns={columns}
+    dataSource={data?.data}
+    bordered
+    scroll={{ x: 768 }}
+    pagination={{ pageSize: 5 }}
+  />
 );
 
 export default CallerTuneTable;

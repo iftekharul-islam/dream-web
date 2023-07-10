@@ -26,7 +26,7 @@ const ApprovedCardList = ({ cardData }) => {
                 title={card?.title}
                 sTitle={card?.subtitle ?? "No Subtitle"}
                 status={Approve}
-                ringtone={card?.is_coller_tune ? RingtoneImg : null}
+                ringtone={card?.is_caller_tune ? RingtoneImg : null}
               />
             </Link>
           </div>

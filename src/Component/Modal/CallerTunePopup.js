@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import AirtelLogo from "../assets/img/Airtel.png";
-import VodafoneLogo from "../assets/img/vodafone.png";
-import jioLogo from "../assets/img/jio.png";
+import { useNavigate } from "react-router-dom";
+import CallerTuneService from "../../Service/CallerTuneService";
 import TermsAndConditionsCheckbox from "../Checkbox/TermsAndConditionsCheckbox";
 
-function CallerTunePopup() {
+function CallerTunePopup({ data }) {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [selectedCards, setSelectedCards] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleClose = () => {
     setShow(false);
@@ -27,11 +27,42 @@ function CallerTunePopup() {
     }
   };
 
+  const onApply = async() => {
+    if(selectedCards.length == 0){
+      alert("Please select CRBT");
+    } else {
+      const res = await CallerTuneService.applyCallerTune({id: data?.id, crbt_ids: selectedCards});
+      if(res){
+        handleClose();
+        navigate('/caller_tune');
+      }
+    }
+  }
+
+  const [CRBT, setCRBT] = useState([]);
+  const getCRBT = async () => {
+    const res = await CallerTuneService.getCRBT();
+    if (res) {
+      setCRBT(res);
+    }
+  };
+  useEffect(() => {
+    getCRBT();
+  }, []);
+
   return (
     <>
-      <button className="btn" onClick={handleShow}>
-        Apply For Caller Tune
-      </button>
+      {data?.status == 3 && (
+        <button
+          className="btn"
+          onClick={handleShow}
+          disabled={data?.is_caller_tune}
+        >
+          {data?.is_caller_tune
+            ? "Already Caller Tune"
+            : "Apply For Caller Tune"}
+        </button>
+      )}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Caller Tune details</Modal.Title>
@@ -41,38 +72,44 @@ function CallerTunePopup() {
             <div className="items">
               <h2>Select CRBT</h2>
               <div className="item">
-                <div
-                  className={`card ${selectedCards.includes('Airtel') ? 'active' : ''}`}
-                  onClick={() => handleCardClick('Airtel')}
-                >
-                  <img src={AirtelLogo} alt="" />
-                </div>
-                <div
-                  className={`card ${selectedCards.includes('Jio') ? 'active' : ''}`}
-                  onClick={() => handleCardClick('Jio')}
-                >
-                  <img src={jioLogo} alt="" />
-                </div>
+                {CRBT?.map(
+                  (item, index) =>
+                    item?.status == 1 && (
+                      <div
+                        className={`card ${
+                          selectedCards.includes(item?.id) ? "active" : ""
+                        }`}
+                        onClick={() => handleCardClick(item?.id)}
+                      >
+                        <img src={item?.icon} alt="" />
+                      </div>
+                    )
+                )}
               </div>
             </div>
             <div className="items mt-4">
               <h2>Coming Soon CRBT</h2>
               <div className="item">
-                <div className="card">
-                  <img src={VodafoneLogo} alt="" />
-                </div>
+                {CRBT?.map(
+                  (item, index) =>
+                    item?.status == 0 && (
+                      <div className="card">
+                        <img src={item?.icon} alt="" />
+                      </div>
+                    )
+                )}
               </div>
             </div>
             <div className="items mt-4">
-              <TermsAndConditionsCheckbox/>
+              <TermsAndConditionsCheckbox isChecked={isChecked} setIsChecked={setIsChecked}/>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
           <div className="btn_area">
-            <Link to="/caller_tune" className="btn" onClick={handleClose}>
+            <button className="btn" onClick={onApply} disabled={!isChecked}>
               Apply
-            </Link>
+            </button>
             <button className="btn_s" onClick={handleClose}>
               Close
             </button>
