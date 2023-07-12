@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const columns = [
   {
     title: "Years",
-    dataIndex: "years",
+    dataIndex: "year",
   },
   {
     title: "Months",
@@ -13,58 +13,53 @@ const columns = [
   {
     title: "Label",
     dataIndex: "label",
+    render: (label) => {
+      return <span>{label?.title}</span>;
+    },
   },
   {
     title: "Status",
-    dataIndex: "status",
-    render: (status) => {
+    dataIndex: "current_status",
+    render: (current_status) => {
       let color;
-      if (status === "Pending") {
+      if (current_status == "Pending") {
         color = "orange";
-      } else if (status === "Approved") {
+      } else if (current_status == "Approved") {
         color = "green";
-      } else if (status === "Cancel") {
+      } else if (current_status == "Rejected") {
         color = "red";
       } else {
         color = "black";
       }
-      return <span style={{ color }}>{status}</span>;
+      return <span style={{ color }}>{current_status}</span>;
     },
   },
   {
     title: "Action",
-    // dataIndex: "AId",
-    render: () => <Link to="">Download</Link>,
+    dataIndex: "",
+    render: (row) => {
+      return (
+        <span>
+          {row?.status == 2 ? (
+            <Link to={row?.file_download_url} target="_blank">Download</Link>
+          ) : (
+            "N/A"
+          )}
+        </span>
+      );
+    },
   },
 ];
-const data = [
-  {
-    key: "1",
-    years: "2023",
-    month: "January",
-    status: "Approved",
-    label: "label",
-  },
-  {
-    key: "2",
-    years: "2023",
-    month: "February",
-    status: "Pending",
-    label: "label",
-  },
-  {
-    key: "3",
-    years: "2023",
-    month: "March",
-    status: "Cancel",
-    label: "label",
-  },
-];
-const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra);
+
+const AnalyticsTable = ({ data }) => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={data ?? []}
+      scroll={{ x: 768 }}
+      bordered
+    />
+  );
 };
-const AnalyticsTable = () => (
-  <Table columns={columns} dataSource={data} scroll={{ x: 768}} onChange={onChange} bordered />
-);
 
 export default AnalyticsTable;

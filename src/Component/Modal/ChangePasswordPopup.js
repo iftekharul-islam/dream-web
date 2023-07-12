@@ -4,15 +4,12 @@ import PasswordInput from "../InputField/PasswordInput";
 
 function Example() {
   const [show, setShow] = useState(false);
+  const [data, setData] = useState({});
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
-  const [name, setName] = useState("");
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
+  const handleChange = (event) => {};
 
   return (
     <>
@@ -24,23 +21,26 @@ function Example() {
         <Modal.Body>
           <div className="row">
             <div className="col-12">
-            <PasswordInput
+              <PasswordInput
                 label="Current Password"
-                value={name}
+                name="old_password"
+                value={data?.old_password}
                 star="*"
-                onChange={handleNameChange}
+                onChange={handleChange}
               />
-            <PasswordInput
+              <PasswordInput
                 label="New Password"
-                value={name}
+                name="password"
+                value={data?.password}
                 star="*"
-                onChange={handleNameChange}
+                onChange={handleChange}
               />
-            <PasswordInput
+              <PasswordInput
                 label="Confirm Password"
-                value={name}
+                name="c_password"
+                value={data?.c_password}
                 star="*"
-                onChange={handleNameChange}
+                onChange={handleChange}
               />
             </div>
           </div>

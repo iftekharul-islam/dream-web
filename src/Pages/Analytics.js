@@ -1,43 +1,73 @@
-import React, { useState } from "react";
-import AnalyticsTable from "../Component/Table/AnalyticsTable";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../Component/SearchBar/SearchBar";
 import Selector from "../Component/Selector/Selector";
+import AnalyticsTable from "../Component/Table/AnalyticsTable";
+import AnalyticsService from "../Service/AnalyticsService";
+import OptionService from "../Service/OptionService";
 
 function Analytics() {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedOptionM, setSelectedOptionM] = useState(null);
-  const [selectedOptionL, setSelectedOptionL] = useState(null);
+  const [uploadData, setUploadData] = useState({ year: "2023" });
+  const handleChange = (name, event) => {
+    setUploadData({ ...uploadData, [name]: event?.value });
+  };
 
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-    console.log(`Selected: ${selectedOption.label}`);
+  const handleSubmit = async () => {
+    const res = await AnalyticsService.submitReq(uploadData);
+    if (res?.status == 201) {
+      setUploadData({ type: 1 });
+      getData();
+    }
   };
-  const handleChangeM = (selectedOptionM) => {
-    setSelectedOptionM(selectedOptionM);
-    console.log(`Selected: ${selectedOptionM.label}`);
+
+  const [data, setData] = useState(null);
+  const [params, setParams] = useState();
+
+  const getData = async () => {
+    const res = await AnalyticsService.getAllData(params);
+    setData(res?.data);
   };
-  const handleChangeL = (selectedOptionL) => {
-    setSelectedOptionL(selectedOptionL);
-    console.log(`Selected: ${selectedOptionL.label}`);
+
+  useEffect(() => {
+    getData();
+  }, [params]);
+
+  const onSearch = (term) => {
+    setParams({ ...params, q: term });
   };
 
   const years = [
+    { value: "2025", label: "2025" },
+    { value: "2024", label: "2024" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
     { value: "2021", label: "2021" },
   ];
 
   const months = [
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
+    { value: "January", label: "January" },
+    { value: "February", label: "February" },
+    { value: "March", label: "March" },
+    { value: "April", label: "April" },
+    { value: "May", label: "May" },
+    { value: "June", label: "June" },
+    { value: "July", label: "July" },
+    { value: "August", label: "August" },
+    { value: "September", label: "September" },
+    { value: "October", label: "October" },
+    { value: "November", label: "November" },
+    { value: "December", label: "December" },
   ];
 
-  const label = [
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-  ];
+  const [label, setLabel] = useState([  ]);
+
+  const getOptions = async () => {
+    const label = await OptionService.getLabel();
+    setLabel(label)
+  };
+  useEffect(() => {
+    getOptions();
+  }, []);
+
   return (
     <>
       <div className="analytics_page">
@@ -47,29 +77,34 @@ function Analytics() {
             options={years}
             onChange={handleChange}
             placeholder="All Year"
-            value={selectedOption}
+            name="year"
+            value={years?.find((item) => item.value == data?.year)}
           />
           <Selector
             options={months}
-            onChange={handleChangeM}
+            onChange={handleChange}
             placeholder="All Months"
-            value={selectedOptionM}
+            name="month"
+            value={months?.find((item) => item.value == data?.month)}
           />
           <Selector
             options={label}
-            onChange={handleChangeL}
+            onChange={handleChange}
             placeholder="All Labels"
-            value={selectedOptionL}
+            name="label_id"
+            value={label?.find((item) => item.value == data?.label_id)}
           />
-          <button className="btn">Submit</button>
+          <button className="btn" onClick={handleSubmit}>
+            Submit
+          </button>
         </div>
         <div className="table_content">
           <h2 className="mb-3">User Analytics History</h2>
           <div className="table_title">
             <p>Show 4 entries</p>
-            <SearchBar />
+            <SearchBar onSearch={onSearch} />
           </div>
-          <AnalyticsTable />
+          <AnalyticsTable data={data}/>
         </div>
       </div>
     </>
