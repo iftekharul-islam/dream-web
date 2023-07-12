@@ -35,12 +35,24 @@ function Topbar() {
     // Perform sign out logic here
   };
 
+  const [notification, setNotification] = useState([]);
+
+  const getNotification = async () => {
+    const res = await AuthService.getNotification();
+    setNotification(res);
+  };
+
+  useEffect(() => {
+    getNotification();
+  }, []);
+  
+
   return (
     <div className="topbar_item">
-      <Notification />
+      <Notification notification={notification}/>
       <Link to="/profile" className="account_info">
-        <p className="name">{getUser()?.name}</p>
-        <img src={userImg} alt="" />
+        <p className="name">{getUser()?.username}</p>
+        <img src={getUser()?.profile_image? getUser()?.profile_image_url : userImg} alt="" />
       </Link>
       <div className="toggle_account_info">
         <AiFillSetting className="icons" onClick={toggleMenu} />

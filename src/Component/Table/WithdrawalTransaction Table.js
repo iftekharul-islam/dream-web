@@ -28,8 +28,18 @@ const columns = [
   },
   {
     title: "Action",
-    // dataIndex: "AId",
-    render: () => <Link to="">Download</Link>,
+    dataIndex: "",
+    render: (row) => {
+      return (
+        <span>
+          {row?.status == "Approved" ? (
+            <Link to={row?.file_download_url} target="_blank">Download</Link>
+          ) : (
+            "N/A"
+          )}
+        </span>
+      );
+    },
   },
 ];
 

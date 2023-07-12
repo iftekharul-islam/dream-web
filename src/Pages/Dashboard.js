@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import DashboardCardList from "../Component/DashboardCard/DashboardCardList";
 import ApprovedCardList from "../Component/CatalogsCard/ApprovedCardList";
+import DashboardCardList from "../Component/DashboardCard/DashboardCardList";
 import RowCardList from "../Component/DashboardCard/RowCardList";
+import DashboardService from "../Service/DashboardService";
 
 const Dashboard = () => {
+  const [data, setData] = useState();
+  const getData = async () => {
+    const res = await DashboardService.getAllData();
+    setData(res);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <div>
-        <DashboardCardList />
+        <DashboardCardList data={data?.count}/>
       </div>
       <div className="mt-4">
         <h2>Latest Release</h2>
@@ -18,11 +29,11 @@ const Dashboard = () => {
         <div className="col-lg-6 col-md-6 col-sm-12">
           <div className="draft_list">
             <div className="draft_header">
-              <h2>Latest Draft</h2>
-              <Link to="/draft">See More</Link>
+              <h2>Latest Approved</h2>
+              <Link to="/approved">See More</Link>
             </div>
             <div className="ps-3 pe-3 mt-1">
-            <RowCardList />
+              <RowCardList data={data?.data?.approved}/>
             </div>
           </div>
         </div>
@@ -33,7 +44,7 @@ const Dashboard = () => {
               <Link to="/pending">See More</Link>
             </div>
             <div className="ps-3 pe-3 mt-1">
-            <RowCardList />
+              <RowCardList data={data?.data?.pending}/>
             </div>
           </div>
         </div>

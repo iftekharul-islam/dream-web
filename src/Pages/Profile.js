@@ -1,67 +1,39 @@
-import React, { useState } from "react";
-import InputField from "../Component/InputField/InputField";
+import React, { useEffect, useState } from "react";
 import ProfileImgUpload from "../Component/ImageUpload/ProfileImgUpload";
+import InputField from "../Component/InputField/InputField";
+import AuthService from "../Service/AuthService";
+import getUser from "../utils/getUser";
 
 function Profile() {
-  const [fname, setFName] = useState("");
-  const [lname, setLName] = useState("");
-  const [pNumber, setpNumber] = useState("");
-  const [cname, setCName] = useState("");
-  const [city, setCity] = useState("");
-  const [currentState, setCurrentState] = useState("");
-  const [pAddress, setPAddress] = useState("");
-  const [pcode, setPCode] = useState("");
-  const [email, setEmail] = useState("yourmail@gmail.com");
+  const [data, setData] = useState({});
+  useEffect(() => {
+    setData(getUser());
+  }, []);
+
   const [isEditable, setIsEditable] = useState(false);
 
   const handleEdit = () => {
     setIsEditable(true);
   };
-
-  const handleSave = () => {
+  const handleSave = async() => {
+    await AuthService.updateProfile(data);
     setIsEditable(false);
     window.alert("All information saved");
   };
-
   const handleChange = (event) => {
-    setFName(event.target.value);
+    setData({ ...data, [event.target.name]: event.target.value });
   };
-  const handleLName = (event) => {
-    setLName(event.target.value);
-  };
-  const handlepNumber = (event) => {
-    setpNumber(event.target.value);
-  };
-  const handleCName = (event) => {
-    setCName(event.target.value);
-  };
-  const handleCity = (event) => {
-    setCity(event.target.value);
-  };
-  const handleCurrentState = (event) => {
-    setCurrentState(event.target.value);
-  };
-  const handlePAddress = (event) => {
-    setPAddress(event.target.value);
-    };
-    
-  const handlePCode = (event) => {
-    setPCode(event.target.value);
-  };
-    
-  const handleEmail = (event) => {
-    setEmail(event.target.value);
-  };
+
 
   return (
     <>
       <div className="user_profile_top mb-5">
         <div className="user_p_info">
           <ProfileImgUpload />
-          <div className="text_area">
-            <h2>username</h2>
+          <div className="text_area mx-2">
+            <h2>{data?.username}</h2>
             <p className="mt-2">
-              Govt. ID: <span>0123456789</span>
+              Govt. ID: <span>{data?.govt_id}</span>
             </p>
           </div>
         </div>
@@ -82,7 +54,8 @@ function Profile() {
           <InputField
             label="First Name"
             star="*"
-            value={fname}
+            value={data?.first_name}
+            name="first_name"
             onChange={handleChange}
             type="text"
             error={null}
@@ -91,8 +64,9 @@ function Profile() {
           <InputField
             label="Last Name"
             star="*"
-            value={lname}
-            onChange={handleLName}
+            value={data?.last_name}
+            name="last_name"
+            onChange={handleChange}
             type="text"
             error={null}
             disabled={!isEditable}
@@ -100,8 +74,9 @@ function Profile() {
           <InputField
             label="Phone Number"
             star="*"
-            value={pNumber}
-            onChange={handlepNumber}
+            value={data?.phone}
+            name="phone"
+            onChange={handleChange}
             type="text"
             error={null}
             disabled={!isEditable}
@@ -109,8 +84,9 @@ function Profile() {
           <InputField
             label="Country / Region"
             star="*"
-            value={cname}
-            onChange={handleCName}
+            value={data?.country}
+            name="country"
+            onChange={handleChange}
             type="text"
             error={null}
             disabled={!isEditable}
@@ -120,8 +96,9 @@ function Profile() {
           <InputField
             label="City"
             star="*"
-            value={city}
-            onChange={handleCity}
+            value={data?.city}
+            name="city"
+            onChange={handleChange}
             type="text"
             error={null}
             disabled={!isEditable}
@@ -129,8 +106,9 @@ function Profile() {
           <InputField
             label="State"
             star="*"
-            value={currentState}
-            onChange={handleCurrentState}
+            value={data?.state}
+            name="state"
+            onChange={handleChange}
             type="text"
             error={null}
             disabled={!isEditable}
@@ -138,8 +116,9 @@ function Profile() {
           <InputField
             label="Postal Address"
             star="*"
-            value={pAddress}
-            onChange={handlePAddress}
+            value={data?.postal_address}
+            name="postal_address"
+            onChange={handleChange}
             type="text"
             error={null}
             disabled={!isEditable}
@@ -147,8 +126,9 @@ function Profile() {
           <InputField
             label="Postal Code"
             star="*"
-            value={pcode}
-            onChange={handlePCode}
+            value={data?.postal_code}
+            name="postal_code"
+            onChange={handleChange}
             type="text"
             error={null}
             disabled={!isEditable}
@@ -159,13 +139,12 @@ function Profile() {
           <InputField
             label="Primary E-mail"
             star="*"
-            value={email}
-            onChange={handleEmail}
+            value={data?.email}
             type="text"
             error={null}
-            disabled={!isEditable}
+            disabled={true}
           />
-          <button className="btn_s mt-4">Add Email Address</button>
+          {/* <button className="btn_s mt-4">Add Email Address</button> */}
         </div>
       </div>
     </>

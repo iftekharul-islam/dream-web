@@ -20,10 +20,10 @@ function WithdrawA() {
   const isButtonActive = data?.balance?.balance >= data?.minimum;
   const handleWithdraw = async () => {
     if (data?.balance?.balance >= data?.minimum) {
-      const res = await AccountService.withdrawBalance(100);
+      const res = await AccountService.withdrawBalance(data?.balance?.balance);
       if (res?.status == 201) {
         getData();
-        alert("Withdrawn ₹100.00");
+        alert("Withdrawn ₹" + data?.balance?.balance);
       }
     } else {
       alert("Withdrawal not possible");
@@ -67,7 +67,7 @@ function WithdrawA() {
       </div>
       <div className="table_content">
         <h1 className="mb-4">Recent Transactions</h1>
-        <WithdrawalTransactionTable data={data?.transaction}/>
+        <WithdrawalTransactionTable data={data?.transaction} />
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosNotifications } from "react-icons/io";
-import { FaBullhorn, FaTimes } from "react-icons/fa";
 
-function Notification() {
+function Notification({ notification }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+
   const menuRef = useRef(null);
 
   const toggleMenu = () => {
@@ -35,13 +35,19 @@ function Notification() {
         <IoIosNotifications className="icons" onClick={toggleMenu} />
         {isOpen && (
           <div className="menu_item" ref={menuRef}>
-            {isVisible && (
+            {/* {isVisible && (
               <div className="news">
                 <FaBullhorn className="icons" />
                 <p>Saturday & Sunday is our off day</p>
                 <FaTimes className="icons" onClick={handleClose} />
               </div>
-            )}
+            )} */}
+            {notification?.map((item, index) => (
+              <div className="border rounded px-2" key={index}>
+                {item?.header} - {item?.title}
+                at 
+                </div>
+            ))}
           </div>
         )}
       </div>

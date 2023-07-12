@@ -1,6 +1,8 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Upload } from 'antd';
-import { useState } from 'react';
+import { PlusOutlined } from "@ant-design/icons";
+import { Modal, Upload } from "antd";
+import { useState } from "react";
+import AuthService from "../../Service/AuthService";
+import baseUrl from "../../Service/config";
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -11,22 +13,26 @@ const getBase64 = (file) =>
 
 const ProfileImgUpload = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([
-    
-  ]);
-    
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState([]);
+
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
+    console.log("🚀 ~ file: ProfileImgUpload.js:20 ~ handlePreview ~ file:", file)
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
   };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange = async({ fileList: newFileList }) => {
+      setFileList(newFileList);
+      await AuthService.updateProfile({})
+  };
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -42,7 +48,11 @@ const ProfileImgUpload = () => {
   return (
     <>
       <Upload
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        action={`${baseUrl}/update-image`}
+        headers={{Authorization : `Bearer ${
+          localStorage.getItem("accessToken") &&
+          JSON.parse(localStorage.getItem("accessToken"))
+        }`}}
         listType="picture-circle"
         fileList={fileList}
         onPreview={handlePreview}
@@ -50,11 +60,16 @@ const ProfileImgUpload = () => {
       >
         {fileList.length >= 1 ? null : uploadButton}
       </Upload>
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+      <Modal
+        open={previewOpen}
+        title={previewTitle}
+        footer={null}
+        onCancel={handleCancel}
+      >
         <img
           alt="example"
           style={{
-            width: '100%',
+            width: "100%",
           }}
           src={previewImage}
         />
