@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CatalogsInfoDetails from "../Component/CatalogsInfo/CatalogsInfoDetails";
 import CallerTunePopup from "../Component/Modal/CallerTunePopup";
 import Draft from "../Component/assets/icons/D.svg";
@@ -8,10 +9,26 @@ import Approve from "../Component/assets/icons/S.svg";
 import RingtoneImg from "../Component/assets/icons/ringtone.svg";
 
 function CatalogDetails() {
-  const { cardDetails } = useSelector((state) => state?.data);  
+  const navigate = useNavigate();
+  const { cardDetails } = useSelector((state) => state?.data);
+
+  useEffect(() => {
+    if (!cardDetails) navigate(-1);
+  }, [cardDetails]);
+
   return (
     <>
-      <div className="catalog_details">
+      <div
+        className="catalog_details"
+        style={{
+          backgroundImage:
+            "linear-gradient(0deg, rgba(9, 9, 9, 0.8), rgba(9, 9, 9, 0.8))",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundImage: `url(${cardDetails?.images?.image_download_url})`,
+        }}
+      >
         <div className="card">
           <img src={cardDetails?.images?.image_download_url} alt="" />
           <div className="c_top_info">
@@ -48,6 +65,15 @@ function CatalogDetails() {
         <div className="btn_group mt-4">
           <CallerTunePopup data={cardDetails} />
           {/* <button className="btn_s">Edit</button> */}
+        </div>
+        <div className="btn_group mt-4">
+          {cardDetails?.status == 4 && (
+            <button className="btn btn-danger" disabled={true}>
+              <span className="text-white">
+                Rejection Note: {cardDetails?.note}
+              </span>
+            </button>
+          )}
         </div>
       </div>
     </>
