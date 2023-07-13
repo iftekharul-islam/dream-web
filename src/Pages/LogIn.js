@@ -23,7 +23,7 @@ function LogIn() {
       setError(res?.message);
     } else if (res?.status === 200) {
       setError(null);
-      window.location.href = "/dashboard";
+      window.location.href = "/release-audio";
     }
   };
   return (
