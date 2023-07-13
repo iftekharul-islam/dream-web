@@ -3,12 +3,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import RowCard from "./RowCard";
 
-const RowCardList = ({data}) => {
+const RowCardList = ({data, link='#'}) => {
   return (
     <div className="row">
       {data?.map((card, index) => (
         <div className="col-lg-12" key={index}>
-          <Link to="/approved">
+          <Link to={link}>
             <RowCard
               rImg={card?.images?.image_download_url}
               title={card.title}

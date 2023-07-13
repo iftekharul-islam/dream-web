@@ -10,7 +10,7 @@ function DraftCatalog() {
     page: 1,
     perPage: 4,
     q: "",
-    status: 2,
+    status: 4,
   });
   const [data, setData] = useState([]);
 

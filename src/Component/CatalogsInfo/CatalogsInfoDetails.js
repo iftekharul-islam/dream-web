@@ -1,9 +1,7 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React from "react";
 
 const CatalogsInfoDetails = ({ data }) => {
-  const [options, setOptions] = useState([]);
-  console.log("🚀 ~ file: CatalogsInfoDetails.js:5 ~ CatalogsInfoDetails ~ data:", data)
   return (
     <div className="submission_page-info">
       <div className="row s_info">

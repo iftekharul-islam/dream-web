@@ -19,21 +19,21 @@ const Dashboard = () => {
   return (
     <>
       <div>
-        <DashboardCardList data={data?.count}/>
+        <DashboardCardList data={data?.count} />
       </div>
       <div className="mt-4">
         <h2>Latest Release</h2>
-        <ApprovedCardList />
+        <ApprovedCardList cardData={data?.data?.approved} />
       </div>
       <div className="row mt-5">
         <div className="col-lg-6 col-md-6 col-sm-12">
           <div className="draft_list">
             <div className="draft_header">
-              <h2>Latest Approved</h2>
-              <Link to="/approved">See More</Link>
+              <h2>Latest Draft</h2>
+              <Link to="/draft">See More</Link>
             </div>
             <div className="ps-3 pe-3 mt-1">
-              <RowCardList data={data?.data?.approved}/>
+              <RowCardList data={data?.data?.draft} link="/draft" />
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ const Dashboard = () => {
               <Link to="/pending">See More</Link>
             </div>
             <div className="ps-3 pe-3 mt-1">
-              <RowCardList data={data?.data?.pending}/>
+              <RowCardList data={data?.data?.pending} link="/pending" />
             </div>
           </div>
         </div>

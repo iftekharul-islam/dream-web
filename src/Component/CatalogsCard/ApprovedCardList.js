@@ -7,6 +7,7 @@ import RingtoneImg from "../assets/icons/ringtone.svg";
 import Card from "./Card";
 
 const ApprovedCardList = ({ cardData }) => {
+  console.log("🚀 ~ file: ApprovedCardList.js:10 ~ ApprovedCardList ~ cardData:", cardData)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (

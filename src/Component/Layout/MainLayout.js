@@ -1,29 +1,28 @@
+import { Button, Layout, Menu } from "antd";
 import React, { useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
-import { BiArrowToRight, BiArrowToLeft } from "react-icons/bi";
-import { BsMusicNote, BsBank2 } from "react-icons/bs";
-import { Button, Layout } from "antd";
-import { Menu } from 'antd';
+import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
+import { BsBank2, BsMusicNote } from "react-icons/bs";
+import { Outlet, useNavigate } from "react-router-dom";
 import "../Layout/Navbar.css";
 import Logo from "../assets/img/Logo.svg";
 
 import {
-  FaHome,
-  FaFolderPlus,
-  FaTag,
   FaChartLine,
-  FaUserPlus,
-  FaYoutube,
-  FaWallet,
-  FaHeadset,
-  FaOrcid,
-  FaPlusSquare,
+  FaCheckCircle,
   // FaRegShareSquare,
   FaClipboardList,
-  FaCheckCircle,
   FaClock,
   FaFirstdraft,
-  FaPhoneVolume
+  FaFolderPlus,
+  FaHeadset,
+  FaHome,
+  FaOrcid,
+  FaPhoneVolume,
+  FaPlusSquare,
+  FaTag,
+  FaUserPlus,
+  FaWallet,
+  FaYoutube
 } from "react-icons/fa";
 import Topbar from "./Topbar";
 
@@ -34,7 +33,7 @@ const MainLayout = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh"}} >
       <Sider
         className="fixed-sider"
         trigger={null}
