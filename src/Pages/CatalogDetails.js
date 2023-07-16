@@ -21,12 +21,10 @@ function CatalogDetails() {
       <div
         className="catalog_details"
         style={{
-          backgroundImage:
-            "linear-gradient(0deg, rgba(9, 9, 9, 0.8), rgba(9, 9, 9, 0.8))",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundImage: `url(${cardDetails?.images?.image_download_url})`,
+          backgroundImage: `linear-gradient(0deg, rgba(9, 9, 9, 0.8), rgba(9, 9, 9, 0.8)), url(${cardDetails?.images?.image_download_url})`,
         }}
       >
         <div className="card">

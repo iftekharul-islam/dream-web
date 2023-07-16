@@ -7,25 +7,28 @@ import RingtoneImg from "../assets/icons/ringtone.svg";
 import Card from "./Card";
 
 const ApprovedCardList = ({ cardData }) => {
-  console.log("🚀 ~ file: ApprovedCardList.js:10 ~ ApprovedCardList ~ cardData:", cardData)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
     <div className="row">
       {cardData?.map((card, index) => {
+        let sTitle = card?.artists && card?.artists[0]?.artist?.title;
+        if (card?.artists?.length > 1) {
+          sTitle = sTitle + " & " + (card?.artists?.length - 1) + " more";
+        }
         return (
           <div className="col-lg-3 col-md-6 col-sm-12" key={index}>
             <Link
-              onClick={async(e) => {
+              onClick={async (e) => {
                 e.preventDefault();
-                await dispatch(setCardDetails(card))
+                await dispatch(setCardDetails(card));
                 navigate("/catalog_details");
               }}
             >
               <Card
                 sImg={card?.images && card?.images?.image_download_url}
                 title={card?.title}
-                sTitle={card?.subtitle ?? "No Subtitle"}
+                sTitle={sTitle}
                 status={Approve}
                 ringtone={card?.is_caller_tune ? RingtoneImg : null}
               />

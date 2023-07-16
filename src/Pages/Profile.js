@@ -30,7 +30,7 @@ function Profile() {
       <div className="user_profile_top mb-5">
         <div className="user_p_info">
           <ProfileImgUpload />
-          <div className="text_area mx-2">
+          <div className="text_area mx-5">
             <h2>{data?.username}</h2>
             <p className="mt-2">
               Govt. ID: <span>{data?.govt_id}</span>
@@ -79,7 +79,7 @@ function Profile() {
             onChange={handleChange}
             type="text"
             error={null}
-            disabled={!isEditable}
+            disabled={true}
           />
           <InputField
             label="Country / Region"

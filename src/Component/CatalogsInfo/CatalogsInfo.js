@@ -17,14 +17,14 @@ const CatalogsInfo = ({ data, options }) => {
                     <span className="px-1">{data?.title}</span>
                   ) : (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
               </div>
               <div className="input_value">
                 <p className="input_name">Version/Subtitle</p>{" "}
-                <span>: {data?.subtitle ?? "N/A"}</span>
+                <span>: {data?.subtitle ?? ""}</span>
               </div>
               {data?.artist ? (
                 data?.artist?.map((item, index) => (
@@ -43,12 +43,12 @@ const CatalogsInfo = ({ data, options }) => {
                 ))
               ) : (
                 <div className="input_value">
-                  <p className="input_name">PrimaryArtist</p>{" "}:{" "}
+                  <p className="input_name">PrimaryArtist</p> :{" "}
                   <span className="px-1">
-                    N/A <span className="text-danger px-1">required</span>
+                    <span className="text-danger px-1">required</span>
                   </span>
                 </div>
-              )}              
+              )}
               {data?.featuring ? (
                 data?.featuring?.map((item, index) => (
                   <div className="input_value">
@@ -61,7 +61,7 @@ const CatalogsInfo = ({ data, options }) => {
               ) : (
                 <div className="input_value">
                   <p className="input_name">Primary Featuring</p>{" "}
-                  <span>: N/A</span>
+                  <span>: </span>
                 </div>
               )}
 
@@ -76,17 +76,32 @@ const CatalogsInfo = ({ data, options }) => {
                 ))
               ) : (
                 <div className="input_value">
-                  <p className="input_name">Primary Remixer</p>{" "}
-                  <span>: N/A</span>
+                  <p className="input_name">Primary Remixer</p> <span>: </span>
                 </div>
               )}
               <div className="input_value">
                 <p className="input_name">Song Writer</p>{" "}
                 <span>
                   :{" "}
-                  {data?.writter ?? (
+                  {data?.writter?.length > 0 ? (
+                    data?.writter?.split(" ")?.length >= 2 ? (
+                      data?.writter
+                        .split(" ")
+                        .every((word) => word?.length >= 3) ? (
+                        data?.writter
+                      ) : (
+                        <span className="px-1">
+                          <span className="text-danger px-1">Invalid Name</span>
+                        </span>
+                      )
+                    ) : (
+                      <span className="px-1">
+                        <span className="text-danger px-1">Invalid Lastname</span>
+                      </span>
+                    )
+                  ) : (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -97,7 +112,30 @@ const CatalogsInfo = ({ data, options }) => {
                     <p className="input_name">
                       {index ? "Secondary Composer" : "Primary Composer"}
                     </p>{" "}
-                    <span>: {item?.name}</span>
+                    <span>
+                  :{" "}
+                  {item?.name?.length > 0 ? (
+                    item?.name?.split(" ")?.length >= 2 ? (
+                      item?.name
+                        .split(" ")
+                        .every((word) => word?.length >= 3) ? (
+                          item?.name
+                      ) : (
+                        <span className="px-1">
+                          <span className="text-danger px-1">Invalid Name</span>
+                        </span>
+                      )
+                    ) : (
+                      <span className="px-1">
+                        <span className="text-danger px-1">Invalid Lastname</span>
+                      </span>
+                    )
+                  ) : (
+                    <span className="px-1">
+                      <span className="text-danger px-1">required</span>
+                    </span>
+                  )}
+                </span>
                   </div>
                 ))
               ) : (
@@ -106,7 +144,7 @@ const CatalogsInfo = ({ data, options }) => {
                   <span>
                     :{" "}
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   </span>
                 </div>
@@ -117,9 +155,11 @@ const CatalogsInfo = ({ data, options }) => {
                 <p className="input_name">Main Release Date</p>{" "}
                 <span>
                   :{" "}
-                  {data?.main_release_date ? moment(data?.main_release_date).format("DD MMM YYYY") : (
+                  {data?.main_release_date ? (
+                    moment(data?.main_release_date).format("DD MMM YYYY")
+                  ) : (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -135,8 +175,7 @@ const CatalogsInfo = ({ data, options }) => {
                 ))
               ) : (
                 <div className="input_value">
-                  <p className="input_name">Primary Arranger</p>{" "}
-                  <span>: N/A</span>
+                  <p className="input_name">Primary Arranger</p> <span>: </span>
                 </div>
               )}
               {data?.producer ? (
@@ -150,17 +189,18 @@ const CatalogsInfo = ({ data, options }) => {
                 ))
               ) : (
                 <div className="input_value">
-                  <p className="input_name">Primary Producer</p>{" "}
-                  <span>: N/A</span>
+                  <p className="input_name">Primary Producer</p> <span>: </span>
                 </div>
               )}
               <div className="input_value">
                 <p className="input_name">Original Release Date</p>{" "}
                 <span>
                   :{" "}
-                  {data?.original_release_date ? moment(data?.original_release_date).format("DD MMM YYYY") : (
+                  {data?.original_release_date ? (
+                    moment(data?.original_release_date).format("DD MMM YYYY")
+                  ) : (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -173,7 +213,7 @@ const CatalogsInfo = ({ data, options }) => {
                     (itm) => itm?.value == data?.language_id
                   )?.label ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}{" "}
                 </span>
@@ -185,7 +225,7 @@ const CatalogsInfo = ({ data, options }) => {
                   {options?.genre?.find((itm) => itm?.value == data?.genre_id)
                     ?.label ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -199,7 +239,7 @@ const CatalogsInfo = ({ data, options }) => {
                     ?.subgenres?.find((itm) => itm?.value == data?.subgenre_id)
                     ?.label ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -213,7 +253,7 @@ const CatalogsInfo = ({ data, options }) => {
                   {options?.label?.find((itm) => itm?.value == data?.label_id)
                     ?.label ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -225,7 +265,7 @@ const CatalogsInfo = ({ data, options }) => {
                   {options?.format?.find((itm) => itm?.value == data?.format_id)
                     ?.label ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -236,7 +276,7 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {data?.p_line ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
@@ -247,18 +287,18 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {data?.c_line ?? (
                     <span className="px-1">
-                      N/A <span className="text-danger px-1">required</span>
+                      <span className="text-danger px-1">required</span>
                     </span>
                   )}
                 </span>
               </div>
               <div className="input_value">
                 <p className="input_name">UPC/EAN</p>{" "}
-                <span>: {data?.upc ?? "N/A"}</span>
+                <span>: {data?.upc ?? ""}</span>
               </div>
               <div className="input_value">
                 <p className="input_name">ISRC</p>{" "}
-                <span>: {data?.isrc ?? "N/A"}</span>
+                <span>: {data?.isrc ?? ""}</span>
               </div>
               <div className="input_value">
                 <p className="input_name">Parental Advisory</p>
@@ -266,12 +306,12 @@ const CatalogsInfo = ({ data, options }) => {
                   :{" "}
                   {options?.advisory?.find(
                     (itm) => itm?.value == data?.parental_advisory_id
-                  )?.label ?? "N/A"}
+                  )?.label ?? ""}
                 </span>
               </div>
               <div className="input_value">
                 <p className="input_name">Producer Catalogue Number</p>
-                <span>: {data?.producer_catalogue_number ?? "N/A"}</span>
+                <span>: {data?.producer_catalogue_number ?? ""}</span>
               </div>
             </div>
           </div>

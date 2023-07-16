@@ -1,38 +1,33 @@
 import { Table } from "antd";
+import moment from "moment";
 const columns = [
   {
-    title: "Date",
-    dataIndex: "date",
+    title: "Issue Date",
+    dataIndex: "created_at",
+    render: (date) => moment(date).format("DD-MM-YYYY"),
+  },
+  {
+    title: "Year",
+    dataIndex: "for_year",
   },
   {
     title: "Month",
-    dataIndex: "for",
+    dataIndex: "for_month",
   },
   {
     title: "Amount",
-    dataIndex: "amount"
+    dataIndex: "amount",
   },
-  {
-    title: "Status",
-    dataIndex: "status",
-    render: (status) => {
-      let color;
-      if (status === "Pending") {
-        color = "orange";
-      } else if (status === "Approved") {
-        color = "green";
-      } else if (status === "Failed") {
-        color = "red";
-      } else {
-        color = "black";
-      }
-      return <span style={{ color }}>{status}</span>;
-    },
-  }
 ];
 
-const EarningHistoryTable = ({data}) => (
-  <Table columns={columns} dataSource={data?.data} bordered scroll={{ x: 768}} pagination={{ pageSize: 5 }}/>
+const EarningHistoryTable = ({ data }) => (
+  <Table
+    columns={columns}
+    dataSource={data?.data}
+    bordered
+    scroll={{ x: 768 }}
+    pagination={{ pageSize: 5 }}
+  />
 );
 
 export default EarningHistoryTable;

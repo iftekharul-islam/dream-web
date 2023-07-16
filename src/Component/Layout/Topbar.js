@@ -3,7 +3,6 @@ import { AiFillSetting } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import AuthService from "../../Service/AuthService";
 import getUser from "../../utils/getUser";
-import ChangePasswordPopup from "../Modal/ChangePasswordPopup";
 import Notification from "../Notification/Notification";
 import userImg from "../assets/img/user.png";
 
@@ -58,7 +57,7 @@ function Topbar() {
         <AiFillSetting className="icons" onClick={toggleMenu} />
         {isOpen && (
           <div className="menu_item" ref={menuRef}>
-            <ChangePasswordPopup />
+            {/* <ChangePasswordPopup /> */}
             <Link to="/" onClick={handleSignOut}>
               <p>Sign Out</p>
             </Link>

@@ -9,6 +9,14 @@ const columns = [
   {
     title: "URL",
     dataIndex: "claim_url",
+
+    render: (data) => {
+      return (
+        <a href={data} target="_blank">
+          {data?.length > 40 ? data?.slice(0, 40) + "..." : data}
+        </a>
+      );
+    },
   },
   {
     title: "UPC/EAN",

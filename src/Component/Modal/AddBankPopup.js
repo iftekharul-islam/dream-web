@@ -66,7 +66,7 @@ function AddBankPopup({ onUpdate }) {
             onChange={onChange}
           />
           <InputField
-            type="number"
+            type="text"
             label="IFSC Code"
             value={data?.ifsc}
             name="ifsc"

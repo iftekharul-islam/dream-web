@@ -8,6 +8,7 @@ function LogIn() {
   const [name, setName] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState(null);
+  const [visible, setVisible] = useState(false);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -40,20 +41,30 @@ function LogIn() {
           onChange={handleNameChange}
         />
         <InputField
+          type={visible ? "text" : "password"}
           label="Password"
           value={pass}
           star="*"
           onChange={handlepassChange}
         />
+        <Link
+          className="mt-0 d-flex justify-content-end"
+          onClick={(e) => {
+            e.preventDefault();
+            setVisible(!visible);
+          }}
+        >
+          {visible ? "Hide Password" : "Show Password"}
+        </Link>
         {error && (
           <div className="validateStatus">
             <p className="text-danger">{error}</p>
           </div>
         )}
 
-        <Link to="#" className="mt-3">
+        {/* <Link to="#" className="mt-3">
           Forget your password?
-        </Link>
+        </Link> */}
         <Link className="mt-3" onClick={handleLogin}>
           <button className="btn">Log In</button>
         </Link>

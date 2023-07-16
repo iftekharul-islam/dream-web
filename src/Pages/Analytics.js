@@ -35,13 +35,22 @@ function Analytics() {
     setParams({ ...params, q: term });
   };
 
-  const years = [
-    { value: "2025", label: "2025" },
-    { value: "2024", label: "2024" },
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-  ];
+  const [years, setYears] = useState([]);
+
+  useEffect(() => {
+    const options = [];
+    for (
+      let i = new Date().getFullYear();
+      i > new Date().getFullYear() - 4;
+      i--
+    ) {
+      options.push({
+        value: i,
+        label: i,
+      });
+    }
+    setYears(options);
+  }, []);
 
   const months = [
     { value: "January", label: "January" },
@@ -58,11 +67,11 @@ function Analytics() {
     { value: "December", label: "December" },
   ];
 
-  const [label, setLabel] = useState([  ]);
+  const [label, setLabel] = useState([]);
 
   const getOptions = async () => {
     const label = await OptionService.getLabel();
-    setLabel(label)
+    setLabel(label);
   };
   useEffect(() => {
     getOptions();
@@ -104,7 +113,7 @@ function Analytics() {
             <p>Show 4 entries</p>
             <SearchBar onSearch={onSearch} />
           </div>
-          <AnalyticsTable data={data}/>
+          <AnalyticsTable data={data} />
         </div>
       </div>
     </>

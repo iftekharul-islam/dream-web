@@ -44,7 +44,7 @@ const AudioSubmission = () => {
                         moment(audioData?.main_release_date).format("DD MMM YYYY")
                       ) : (
                         <span className="px-1">
-                          N/A <span className="text-danger px-1">required</span>
+                          <span className="text-danger px-1">required</span>
                         </span>
                       )}
                     </span>
