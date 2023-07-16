@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import EarningOverviewChart from "../Component/Chart/EarningOverviewChart";
 import Selector from "../Component/Selector/Selector";
 import EarningHistoryTable from "../Component/Table/EarningHistoryTable";
 import AccountService from "../Service/AccountService";
@@ -8,7 +7,7 @@ function Earning() {
   const [data, setData] = useState(null);
 
   const getData = async (value) => {
-    const res = await AccountService.getOverViewData({year:value?.value});
+    const res = await AccountService.getOverViewData({ year: value?.value });
     if (res) {
       setData(res);
     }
@@ -17,20 +16,33 @@ function Earning() {
     getData(null);
   }, []);
 
-  const options = [
-    { value: "2025", label: "2024" },
-    { value: "2024", label: "2025" },
-    { value: "2023", label: "2023" },
-    { value: "2022", label: "2022" },
-    { value: "2021", label: "2021" },
-  ];
+  const [options, setOptions] = useState([]);
 
-  const [selectedOption, setSelectedOption] = useState({ value: "2023", label: "2023" });
+  useEffect(() => {
+    const options = [];
+    for (
+      let i = new Date().getFullYear();
+      i > new Date().getFullYear() - 4;
+      i--
+    ) {
+      options.push({
+        value: i,
+        label: i,
+      });
+    }
+    setOptions(options);
+  }, []);
+
+  const [selectedOption, setSelectedOption] = useState({
+    value: new Date().getFullYear(),
+    label: new Date().getFullYear(),
+  });
 
   const handleChange = (name, value) => {
     setSelectedOption(value);
-    getData(value)
+    getData(value);
   };
+  console.log("🚀 ~ file: Overview.js:45 ~ handleChange ~ handleChange:", data?.transaction)
   return (
     <div>
       <div className="section_title">
@@ -39,7 +51,7 @@ function Earning() {
           <p>A deep dive into your financial situation</p>
         </div>
       </div>
-      <div className="chart_area">
+      {/* <div className="chart_area">
         <div className="chart_top_content">
           <h3>
             Total Earning:<span className="ms-3">₹</span>
@@ -56,19 +68,19 @@ function Earning() {
           </div>
         </div>
         <EarningOverviewChart className="chart" />
-      </div>
+      </div> */}
       <div className="table_content">
         <h2>All Time Transactions</h2>
-      <div className="table_title">
+        <div className="table_title">
           <p>Show 4 entries</p>
           <Selector
-              options={options}
-              onChange={handleChange}
-              placeholder="This Year"
-              value={selectedOption}
-            />
+            options={options}
+            onChange={handleChange}
+            placeholder="This Year"
+            value={selectedOption}
+          />
         </div>
-        <EarningHistoryTable data={data?.transaction}/>
+        <EarningHistoryTable data={data?.transaction} />
       </div>
     </div>
   );

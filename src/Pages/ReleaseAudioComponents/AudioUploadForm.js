@@ -46,7 +46,7 @@ const AudioUploadForm = ({ data, onChange }) => {
                     </div>
                   </div>
                   <div className="kb-attach-box mb-3">
-                    {data?.file && data?.file.name.match(/.(mp3|wav)$/i) ? (
+                    {/* {data?.file && data?.file.name.match(/.(mp3|wav)$/i) ? (
                       <div className="audio-preview">
                         <audio controls>
                           <source
@@ -56,7 +56,7 @@ const AudioUploadForm = ({ data, onChange }) => {
                           Your browser does not support the audio element.
                         </audio>
                       </div>
-                    ) : null}
+                    ) : null} */}
                     {data?.file && (
                       <div className="file-detail">
                         <h6>{data?.file.name}</h6>

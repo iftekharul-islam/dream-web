@@ -9,10 +9,24 @@ const columns = [
   {
     title: "Channel Link",
     dataIndex: "artist_channel_link",
+    render: (data) => {
+      return (
+        <a href={data} target="_blank">
+          {data?.length > 30 ? data?.slice(0, 30) + "..." : data}
+        </a>
+      );
+    },
   },
   {
     title: "Topic Link",
     dataIndex: "artist_topic_link",
+    render: (data) => {
+      return (
+        <a href={data} target="_blank">
+          {data?.length > 30 ? data?.slice(0, 30) + "..." : data}
+        </a>
+      );
+    },
   },
   {
     title: "UPC/EAN1",

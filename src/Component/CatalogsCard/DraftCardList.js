@@ -10,25 +10,31 @@ const DraftCardList = ({ cardData }) => {
   const dispatch = useDispatch();
   return (
     <div className="row">
-      {cardData.map((card, index) => (
-        <div className="col-lg-3 col-md-6 col-sm-12">
-          <Link
-            onClick={async(e) => {
-              e.preventDefault();
-                await dispatch(setCardDetails(card))
+      {cardData.map((card, index) => {
+        let sTitle = card?.artists && card?.artists[0]?.artist?.title;
+        if (card?.artists?.length > 1) {
+          sTitle = sTitle + " & " + (card?.artists?.length - 1) + " more";
+        }
+        return (
+          <div className="col-lg-3 col-md-6 col-sm-12">
+            <Link
+              onClick={async (e) => {
+                e.preventDefault();
+                await dispatch(setCardDetails(card));
                 navigate("/catalog_details");
-            }}
-          >
-            <Card
-              key={index}
-              sImg={card?.images && card?.images?.image_download_url}
-              title={card?.title}
-              sTitle={card?.subtitle}
-              status={Draft}
-            />
-          </Link>
-        </div>
-      ))}
+              }}
+            >
+              <Card
+                key={index}
+                sImg={card?.images && card?.images?.image_download_url}
+                title={card?.title}
+                sTitle={sTitle}
+                status={Draft}
+              />
+            </Link>
+          </div>
+        );
+      })}
     </div>
   );
 };
