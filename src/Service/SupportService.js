@@ -9,8 +9,8 @@ const createTicket = async(data)=>{
     return res.data;
 }
 
-const getSingleData = async(id)=>{
-    const res = await http.get(`/ticket/${id}`);
+const getSingleData = async(id, params)=>{
+    const res = await http.get(`/ticket/${id}`, {params});
     return res.data;
 }
 

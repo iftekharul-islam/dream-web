@@ -12,7 +12,7 @@ function SubmitConfirmationPopup({ data }) {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

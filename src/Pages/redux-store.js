@@ -5,7 +5,8 @@ export const dataSlice = createSlice({
   initialState: {
     audioData: null,
     audioOptions: null,
-    cardDetails: null
+    cardDetails: null,
+    settings: { whatsapp: "01677756337", min_withdraw: 300 },
   },
   reducers: {
     setAudioData: (state, action) => {
@@ -19,9 +20,18 @@ export const dataSlice = createSlice({
     },
     setCardDetails: (state, action) => {
       state.cardDetails = action.payload;
-    }
+    },
+    setSettings: (state, action) => {
+      state.settings = action.payload;
+    },
   },
 });
 
-export const { setAudioData, setAudioOptions, cleanAudioData, setCardDetails } = dataSlice.actions;
+export const {
+  setAudioData,
+  setAudioOptions,
+  cleanAudioData,
+  setCardDetails,
+  setSettings,
+} = dataSlice.actions;
 export default dataSlice.reducer;

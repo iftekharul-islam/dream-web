@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AiFillSetting } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { setSettings } from "../../Pages/redux-store";
 import AuthService from "../../Service/AuthService";
 import getUser from "../../utils/getUser";
+import ChangePasswordPopup from "../Modal/ChangePasswordPopup";
 import Notification from "../Notification/Notification";
 import userImg from "../assets/img/user.png";
 
 function Topbar() {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -38,7 +42,8 @@ function Topbar() {
 
   const getNotification = async () => {
     const res = await AuthService.getNotification();
-    setNotification(res);
+    setNotification(res?.notifications);
+    dispatch(setSettings(res?.settings))
   };
 
   useEffect(() => {
@@ -57,7 +62,7 @@ function Topbar() {
         <AiFillSetting className="icons" onClick={toggleMenu} />
         {isOpen && (
           <div className="menu_item" ref={menuRef}>
-            {/* <ChangePasswordPopup /> */}
+            <ChangePasswordPopup />
             <Link to="/" onClick={handleSignOut}>
               <p>Sign Out</p>
             </Link>

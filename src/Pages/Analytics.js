@@ -39,11 +39,7 @@ function Analytics() {
 
   useEffect(() => {
     const options = [];
-    for (
-      let i = new Date().getFullYear();
-      i > new Date().getFullYear() - 4;
-      i--
-    ) {
+    for (let i = new Date().getFullYear(); i >= 2020; i--) {
       options.push({
         value: i,
         label: i,

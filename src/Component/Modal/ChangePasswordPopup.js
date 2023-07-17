@@ -14,7 +14,7 @@ function Example() {
   return (
     <>
       <p onClick={handleShow}>Change Your Password</p>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} >
         <Modal.Header closeButton>
           <Modal.Title>Set Password</Modal.Title>
         </Modal.Header>
