@@ -18,6 +18,7 @@ const CalenderField = ({ label, star, value, placeholder, onChange, type, error,
         required
         disabled={disabled} // Set the disabled attribute based on the prop
         min={min}
+        max={min+1}
       />
       {error && <p className="input_error">{error}</p>}
     </div>

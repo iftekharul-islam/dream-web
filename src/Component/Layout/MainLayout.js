@@ -54,6 +54,7 @@ const MainLayout = () => {
           onClick={({ key }) => {
             if (key === "signout") {
             } else {
+              // setCollapsed(!collapsed)
               navigate(key);
             }
           }}

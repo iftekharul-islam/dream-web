@@ -30,7 +30,7 @@ function Profile() {
       <div className="user_profile_top mb-5">
         <div className="user_p_info">
           <ProfileImgUpload />
-          <div className="text_area mx-5">
+          <div className="text_area" style={{marginLeft: 50}}>
             <h2>{data?.username}</h2>
             <p className="mt-2">
               Govt. ID: <span>{data?.govt_id}</span>

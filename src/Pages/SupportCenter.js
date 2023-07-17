@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
+import { useSelector } from "react-redux";
 import InputField from "../Component/InputField/InputField";
 import SearchBar from "../Component/SearchBar/SearchBar";
 import SupportHistoryTable from "../Component/Table/SupportHistoryTable";
 import SupportService from "../Service/SupportService";
 
 function SupportCenter() {
+  const { settings } = useSelector((state) => state?.data);
   const [uploadData, setUploadData] = useState(null);
   
   const handleChange = (event) => {
@@ -70,7 +72,7 @@ function SupportCenter() {
           <div className="connect_wp">
           <IoLogoWhatsapp className="icons" />
           <p>Live WhatsApp Support</p>
-          <a className="btn" href="https://wa.me/01677756337" target="_blank">Chat Now</a>
+          <a className="btn" href={`https://wa.me/${settings?.whatsapp}`} target="_blank">Chat Now</a>
           </div>
         </div>
       </div>

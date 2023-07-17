@@ -2,6 +2,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { AiFillMessage } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import SupportService from "../../Service/SupportService";
 import InputField from "../InputField/InputField";
 
@@ -9,9 +10,22 @@ function SupportReplyPopup({ row }) {
   const [show, setShow] = useState(false);
   const [data, setData] = useState(null);
   const [message, setMessage] = useState(null);
+  const [params, setParams] = useState(null);
 
   const getData = async () => {
     const res = await SupportService.getSingleData(row?.id);
+    setData(res);
+  };
+
+  const showAll = async () => {
+    let res = null;
+    if (params?.type == "all") {
+      setParams({ type: null });
+      res = await SupportService.getSingleData(row?.id);
+    } else {
+      setParams({ type: "all" });
+      res = await SupportService.getSingleData(row?.id, { type: "all" });
+    }
     setData(res);
   };
 
@@ -29,16 +43,16 @@ function SupportReplyPopup({ row }) {
     setMessage({ ...message, message: e?.target?.value });
   };
 
-  const handleSend = async() => {
+  const handleSend = async () => {
     const res = await SupportService.sendMessage(message);
     getData();
-    setMessage({ ...message, message: '' });
+    setMessage({ ...message, message: "" });
   };
 
   return (
     <>
       <button className="reply_btn" onClick={handleShow}>
-        Reply {row?.unread_for_user>0 && "("+row?.unread_for_user+")"}
+        Reply {row?.unread_for_user > 0 && "(" + row?.unread_for_user + ")"}
         <AiFillMessage className="icons" />
       </button>
       <Modal show={show} onHide={handleClose} className="s-popup" size="lg">
@@ -47,6 +61,9 @@ function SupportReplyPopup({ row }) {
         </Modal.Header>
         <Modal.Body>
           <div className="chat_box">
+            <Link className="d-flex justify-content-center" onClick={showAll}>
+              {params?.type != "all" ? "Show All Message" : "Hide Message"}
+            </Link>
             {data?.map((text) => {
               return (
                 <div
@@ -55,7 +72,9 @@ function SupportReplyPopup({ row }) {
                   <div className="box">
                     <small>{text?.message}</small>
                     <br />
-                    <p>{moment(text?.created_at).format('hh:mmA on DD MMM YYYY')}</p>
+                    <p>
+                      {moment(text?.created_at).format("hh:mmA on DD MMM YYYY")}
+                    </p>
                     <p>Sent {text?.sender == 1 ? "from You" : "by Admin"}</p>
                   </div>
                 </div>
