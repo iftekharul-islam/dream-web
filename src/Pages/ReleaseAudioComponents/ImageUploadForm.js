@@ -13,20 +13,29 @@ const ImageUploadForm = ({ data, onChange }) => {
   };
 
   const handleFileUpload = (e) => {
-    onChange({ image: e.target.files[0] });
     if (e.target.files[0]) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        onChange({ selectedImage: reader.result });
-        onChange({
-          ImageInfo: {
-            id: shortid.generate(),
-            filename: e.target.files[0].name,
-            fileimage: reader.result,
-            datetime: e.target.files[0].lastModifiedDate.toLocaleString("en-IN"),
-            filesize: filesizes(e.target.files[0].size),
-          },
-        });
+        const img = new Image();
+        img.src = reader?.result;
+        img.onload = () => {
+          if (img?.width == 3000 && img?.height == 3000) {
+            onChange({ image: e.target.files[0] });
+            onChange({ selectedImage: reader.result });
+            onChange({
+              ImageInfo: {
+                id: shortid.generate(),
+                filename: e.target.files[0].name,
+                fileimage: reader.result,
+                datetime:
+                  e.target.files[0].lastModifiedDate.toLocaleString("en-IN"),
+                filesize: filesizes(e.target.files[0].size),
+              },
+            });
+          } else {
+            alert("Please upload an image with dimensions 3000x3000 pixels");
+          }
+        };
       };
       reader.readAsDataURL(e.target.files[0]);
     }

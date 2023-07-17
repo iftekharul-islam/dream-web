@@ -31,7 +31,7 @@ const AudioUploadForm = ({ data, onChange }) => {
                         id="fileupload"
                         className="file-upload-input"
                         onChange={handleInputChange}
-                        accept="audio/*"
+                        accept=".wav"
                       />
                       <div className="img_Up_info">
                         <img src={UploadIcon} alt="" className="mb-2" />
