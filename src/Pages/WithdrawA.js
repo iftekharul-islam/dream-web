@@ -23,7 +23,7 @@ function WithdrawA() {
       const res = await AccountService.withdrawBalance(data?.balance?.balance);
       if (res?.status == 201) {
         getData();
-        alert("Withdrawn ₹" + data?.balance?.balance);
+        alert("Withdrawn ₹" + data?.balance?.balance?.toFixed(2));
       }
     } else {
       alert("Withdrawal not possible");

@@ -42,7 +42,6 @@ function Earning() {
     setSelectedOption(value);
     getData(value);
   };
-  console.log("🚀 ~ file: Overview.js:45 ~ handleChange ~ handleChange:", data?.transaction)
   return (
     <div>
       <div className="section_title">
