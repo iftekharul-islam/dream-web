@@ -45,7 +45,7 @@ aside.ant-layout-sider.ant-layout-sider-dark.fixed-sider {
   height: 100vh;
 }
 
-header.ant-layout-header.fixed-header.css-dev-only-do-not-override-1wazalj,
+header.ant-layout-header.fixed-header.css-1wazalj,
 header.ant-layout-header.fixed-header.css-dev-only-do-not-override-w8mnev {
   min-height: 75px !important;
 }
@@ -187,12 +187,12 @@ svg.ant-menu-item-icon {
     margin-right: 0 !important;
   }
 
-  header.ant-layout-header.fixed-header.css-dev-only-do-not-override-1wazalj,
+  header.ant-layout-header.fixed-header.css-1wazalj,
   header.ant-layout-header.fixed-header.css-dev-only-do-not-override-w8mnev {
     margin-left: 0 !important;
   }
 
-  header.ant-layout-header.fixed-header.collapsed.css-dev-only-do-not-override-1wazalj,
+  header.ant-layout-header.fixed-header.collapsed.css-1wazalj,
   header.ant-layout-header.fixed-header.collapsed.css-dev-only-do-not-override-w8mnev {
     margin-left: 250px !important;
   }

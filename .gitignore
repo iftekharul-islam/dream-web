@@ -6,8 +6,7 @@ node_modules/
 dist/
 
 # Environment variables
-.env
 
 # Editor-specific files
-.vscode/
 .idea/
+config.bat
